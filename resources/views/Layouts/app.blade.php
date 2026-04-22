@@ -7,14 +7,14 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'DailyDrive - Your Goals & Tasks Dashboard')</title>
 
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom GenZ CSS -->
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- Lucide Icons -->
+    <link rel="stylesheet" href="https://unpkg.com/lucide-static@0.321.0/font/lucide.css">
 
-    <!-- Custom CSS -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <!-- Custom JS -->
+    <script src="{{ asset('js/app.js') }}" defer></script>
 
     @stack('styles')
 </head>
@@ -37,9 +37,6 @@
             <p class="text-muted mb-0">&copy; {{ date('Y') }} DailyDrive. Stay productive, stay driven.</p>
         </div>
     </footer>
-
-    <!-- Bootstrap 5 JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Custom Scripts -->
     @stack('scripts')

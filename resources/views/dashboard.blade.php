@@ -8,9 +8,9 @@
     @if($quote)
         <div class="row mb-4">
             <div class="col-12">
-                <div class="card quote-card shadow-lg border-0 bg-gradient-primary text-white">
+                <div class="card quote-card glow-animation">
                     <div class="card-body text-center py-4">
-                        <i class="bi bi-quote display-4 mb-3"></i>
+                        <i class="lucide-quote display-4 mb-3"></i>
                         <h4 class="quote-content mb-3">"{{ $quote->content }}"</h4>
                         @if($quote->author)
                             <p class="quote-author mb-0">— {{ $quote->author }}</p>
@@ -23,37 +23,57 @@
 
     <!-- Dashboard Header -->
     <div class="row mb-4">
-        <div class="col-md-12">
-            <h1 class="display-5">
-                <i class="bi bi-speedometer2 text-primary"></i> Dashboard
-            </h1>
-            <p class="text-muted">{{ now()->format('l, F j, Y') }} <span id="current-time">{{ now()->format('h:i A') }}</span></p>
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="display-5 mb-2">
+                        <i class="lucide-activity" style="color: var(--neon-green);"></i> 
+                        <span style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Dashboard</span>
+                    </h1>
+                    <p class="text-muted mb-0">
+                        <i class="lucide-calendar"></i> 
+                        {{ now()->format('l, F j, Y') }} 
+                        <span class="badge bg-secondary ms-2" id="current-time">{{ now()->format('h:i A') }}</span>
+                    </p>
+                </div>
+                <div class="d-flex gap-2">
+                    <a href="{{ route('tasks.create') }}" class="btn btn-primary">
+                        <i class="lucide-plus"></i> Quick Task
+                    </a>
+                    <a href="{{ route('goals.create') }}" class="btn btn-secondary">
+                        <i class="lucide-target"></i> New Goal
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- Section Tabs -->
     <div class="row">
         <div class="col-12">
-            <ul class="nav nav-tabs nav-tabs-custom mb-4" id="sectionTabs" role="tablist">
-                <li class="nav-item" role="presentation">
+            <div class="nav-tabs" id="sectionTabs" role="tablist">
+                <div class="nav-item" role="presentation">
                     <button class="nav-link active" id="daily-tab" data-bs-toggle="tab" data-bs-target="#daily" type="button" role="tab">
-                        <i class="bi bi-sun"></i> Daily
-                        <span class="badge bg-primary ms-2">{{ $dailyTasks->where('status', 'pending')->count() }}</span>
+                        <i class="lucide-sun"></i> 
+                        <span>Daily</span>
+                        <span class="badge bg-primary" style="background: var(--neon-green-muted); color: var(--text-primary);">{{ $dailyTasks->where('status', 'pending')->count() }}</span>
                     </button>
-                </li>
-                <li class="nav-item" role="presentation">
+                </div>
+                <div class="nav-item" role="presentation">
                     <button class="nav-link" id="weekly-tab" data-bs-toggle="tab" data-bs-target="#weekly" type="button" role="tab">
-                        <i class="bi bi-calendar-week"></i> Weekly
-                        <span class="badge bg-primary ms-2">{{ $weeklyTasks->where('status', 'pending')->count() }}</span>
+                        <i class="lucide-calendar"></i> 
+                        <span>Weekly</span>
+                        <span class="badge bg-primary" style="background: var(--neon-blue-muted); color: var(--text-primary);">{{ $weeklyTasks->where('status', 'pending')->count() }}</span>
                     </button>
-                </li>
-                <li class="nav-item" role="presentation">
+                </div>
+                <div class="nav-item" role="presentation">
                     <button class="nav-link" id="monthly-tab" data-bs-toggle="tab" data-bs-target="#monthly" type="button" role="tab">
-                        <i class="bi bi-calendar-month"></i> Monthly
-                        <span class="badge bg-primary ms-2">{{ $monthlyTasks->where('status', 'pending')->count() }}</span>
+                        <i class="lucide-calendar-days"></i> 
+                        <span>Monthly</span>
+                        <span class="badge bg-primary" style="background: var(--neon-purple-muted); color: var(--text-primary);">{{ $monthlyTasks->where('status', 'pending')->count() }}</span>
                     </button>
-                </li>
-            </ul>
+                </div>
+            </div>
 
             <!-- Tab Content -->
             <div class="tab-content" id="sectionTabContent">
