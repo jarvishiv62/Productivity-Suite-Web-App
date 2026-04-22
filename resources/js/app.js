@@ -1,5 +1,4 @@
-import './bootstrap';
-import '../css/custom.css';
+import "./bootstrap";
 
 // Import Pomodoro timer
-import './pomodoro';
+import "./pomodoro";

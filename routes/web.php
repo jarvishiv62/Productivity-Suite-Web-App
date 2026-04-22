@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 // Authentication Routes (handled by Laravel Breeze)
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 // Redirect root to dashboard (only for authenticated users)
 Route::get('/', function () {

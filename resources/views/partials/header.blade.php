@@ -10,25 +10,29 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto align-items-center">
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('dashboard') || request()->routeIs('home') ? 'active' : '' }}" href="{{ route('dashboard') }}">
+                    <a class="nav-link {{ request()->routeIs('dashboard') || request()->routeIs('home') ? 'active' : '' }}"
+                        href="{{ route('dashboard') }}">
                         <i class="bi bi-speedometer2"></i> Dashboard
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('goals.*') ? 'active' : '' }}" href="{{ route('goals.index') }}">
+                    <a class="nav-link {{ request()->routeIs('goals.*') ? 'active' : '' }}"
+                        href="{{ route('goals.index') }}">
                         <i class="bi bi-bullseye"></i> Goals
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('tasks.index') ? 'active' : '' }}" href="{{ route('tasks.index') }}">
+                    <a class="nav-link {{ request()->routeIs('tasks.index') ? 'active' : '' }}"
+                        href="{{ route('tasks.index') }}">
                         <i class="bi bi-list-task"></i> All Tasks
                     </a>
                 </li>
-                
+
                 @auth
                     <!-- User Dropdown Menu -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown"
+                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-person-circle me-1"></i>
                             {{ Auth::user()->name }}
                         </a>
@@ -38,7 +42,9 @@
                                     <i class="bi bi-person me-2"></i> Profile
                                 </a>
                             </li>
-                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
                             <li>
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
@@ -65,12 +71,14 @@
                     @endif
                 @endauth
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('diary.*') ? 'active' : '' }}" href="{{ route('diary.index') }}">
+                    <a class="nav-link {{ request()->routeIs('diary.*') ? 'active' : '' }}"
+                        href="{{ route('diary.index') }}">
                         <i class="bi bi-journal-text"></i> Diary
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('calendar.*') ? 'active' : '' }}" href="{{ route('calendar.index') }}">
+                    <a class="nav-link {{ request()->routeIs('calendar.*') ? 'active' : '' }}"
+                        href="{{ route('calendar.index') }}">
                         <i class="bi bi-calendar3"></i> Calendar
                     </a>
                 </li>
@@ -80,7 +88,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->routeIs('progress.*') ? 'active' : '' }}" href="{{ route('progress.index') }}">
+                    <a class="nav-link {{ request()->routeIs('progress.*') ? 'active' : '' }}"
+                        href="{{ route('progress.index') }}">
                         <i class="bi bi-graph-up"></i> Progress
                     </a>
                 </li>
@@ -107,4 +116,3 @@
         </div>
     </div>
 @endif
-

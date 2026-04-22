@@ -56,6 +56,7 @@ class GoalController extends Controller
             'section' => 'required|in:daily,weekly,monthly',
         ]);
 
+        $validated['user_id'] = auth()->id();
         Goal::create($validated);
 
         return redirect()->route('goals.index')
