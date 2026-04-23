@@ -3,112 +3,74 @@
 @section('title', 'Progress & Analytics')
 
 @section('content')
-    <div class="container">
+    <div class="max-w-7xl mx-auto px-4 py-8 pt-24">
         <!-- Header -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="text-center mb-4">
-                    <h1 class="display-5 mb-2">
-                        <i class="lucide-trending-up" style="color: var(--neon-green);"></i>
-                        <span
-                            style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Progress
-                            & Analytics</span>
-                    </h1>
-                    <p class="text-muted" style="font-size: 1.1rem;">Track your productivity journey and celebrate
-                        achievements</p>
-                </div>
-            </div>
+        <div class="text-center mb-8">
+            <h1 class="text-4xl lg:text-5xl font-display font-bold text-text-primary mb-4">
+                <i class="lucide-trending-up text-neon-green"></i>
+                <span class="bg-gradient-to-r from-neon-pink to-neon-purple bg-clip-text text-transparent">Progress & Analytics</span>
+            </h1>
+            <p class="text-text-secondary text-lg">Track your productivity journey and celebrate achievements</p>
         </div>
 
         <!-- Stats Summary Cards -->
-        <div class="row mb-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <!-- Points Card -->
-            <div class="col-lg-3 col-md-6 mb-3">
-                <div class="card"
-                    style="background: var(--primary-gradient); color: white; border: none; box-shadow: 0 8px 24px rgba(255, 0, 110, 0.3);">
-                    <div class="card-body">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <div>
-                                <h6
-                                    style="color: rgba(255, 255, 255, 0.8); margin-bottom: var(--space-sm); font-weight: 600;">
-                                    Total Points</h6>
-                                <h2 style="margin-bottom: 0; font-weight: 700; font-size: 2.5rem;">
-                                    {{ number_format($stats->points ?? 0) }}
-                                </h2>
-                            </div>
-                            <div
-                                style="width: 60px; height: 60px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px);">
-                                <i class="lucide-gem" style="font-size: 28px;"></i>
-                            </div>
+            <div class="bg-gradient-to-br from-neon-pink to-neon-purple text-white rounded-2xl shadow-2xl overflow-hidden hover:transform hover:scale-105 transition-all duration-300">
+                <div class="p-6">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h6 class="text-white/80 font-semibold mb-2">Total Points</h6>
+                            <div class="text-3xl font-bold">{{ number_format($stats->points ?? 0) }}</div>
+                        </div>
+                        <div class="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                            <i class="lucide-gem text-2xl"></i>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Current Streak -->
-            <div class="col-lg-3 col-md-6 mb-3">
-                <div class="card"
-                    style="background: var(--accent-gradient); color: white; border: none; box-shadow: 0 8px 24px rgba(255, 190, 11, 0.3);">
-                    <div class="card-body">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <div>
-                                <h6
-                                    style="color: rgba(255, 255, 255, 0.8); margin-bottom: var(--space-sm); font-weight: 600;">
-                                    Current Streak</h6>
-                                <h2 style="margin-bottom: 0; font-weight: 700; font-size: 2.5rem;">
-                                    🔥 {{ $stats->streak ?? 0 }}
-                                    <small style="font-size: 1rem; opacity: 0.8;">days</small>
-                                </h2>
-                            </div>
-                            <div
-                                style="width: 60px; height: 60px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px);">
-                                <i class="lucide-flame" style="font-size: 28px;"></i>
-                            </div>
+            <div class="bg-gradient-to-br from-neon-yellow to-neon-orange text-white rounded-2xl shadow-2xl overflow-hidden hover:transform hover:scale-105 transition-all duration-300">
+                <div class="p-6">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h6 class="text-white/80 font-semibold mb-2">Current Streak</h6>
+                            <div class="text-3xl font-bold">🔥 {{ $stats->streak ?? 0 }}</div>
+                            <div class="text-sm text-white/80">days</div>
+                        </div>
+                        <div class="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                            <i class="lucide-flame text-2xl"></i>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Tasks Completed -->
-            <div class="col-lg-3 col-md-6 mb-3">
-                <div class="card"
-                    style="background: var(--secondary-gradient); color: var(--bg-primary); border: none; box-shadow: 0 8px 24px rgba(6, 255, 180, 0.3);">
-                    <div class="card-body">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <div>
-                                <h6 style="color: rgba(0, 0, 0, 0.6); margin-bottom: var(--space-sm); font-weight: 600;">
-                                    Tasks Completed</h6>
-                                <h2 style="margin-bottom: 0; font-weight: 700; font-size: 2.5rem;">
-                                    {{ number_format($completedTasks) }}
-                                </h2>
-                            </div>
-                            <div
-                                style="width: 60px; height: 60px; background: rgba(0, 0, 0, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px);">
-                                <i class="lucide-check-circle" style="font-size: 28px;"></i>
-                            </div>
+            <div class="bg-gradient-to-br from-neon-green to-neon-blue text-white rounded-2xl shadow-2xl overflow-hidden hover:transform hover:scale-105 transition-all duration-300">
+                <div class="p-6">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h6 class="text-white/80 font-semibold mb-2">Tasks Completed</h6>
+                            <div class="text-3xl font-bold">{{ number_format($completedTasks) }}</div>
+                        </div>
+                        <div class="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                            <i class="lucide-check-circle text-2xl"></i>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Goals Achieved -->
-            <div class="col-lg-3 col-md-6 mb-3">
-                <div class="card"
-                    style="background: linear-gradient(135deg, #8338EC 0%, #06FFB4 100%); color: white; border: none; box-shadow: 0 8px 24px rgba(131, 56, 236, 0.3);">
-                    <div class="card-body">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <div>
-                                <h6
-                                    style="color: rgba(255, 255, 255, 0.8); margin-bottom: var(--space-sm); font-weight: 600;">
-                                    Goals Achieved</h6>
-                                <h2 style="margin-bottom: 0; font-weight: 700; font-size: 2.5rem;">
-                                    {{ number_format($completedGoals) }}
-                                </h2>
-                            </div>
-                            <div
-                                style="width: 60px; height: 60px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px);">
-                                <i class="lucide-trophy" style="font-size: 28px;"></i>
-                            </div>
+            <div class="bg-gradient-to-br from-neon-purple to-neon-teal text-white rounded-2xl shadow-2xl overflow-hidden hover:transform hover:scale-105 transition-all duration-300">
+                <div class="p-6">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h6 class="text-white/80 font-semibold mb-2">Goals Achieved</h6>
+                            <div class="text-3xl font-bold">{{ number_format($completedGoals) }}</div>
+                        </div>
+                        <div class="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                            <i class="lucide-trophy text-2xl"></i>
                         </div>
                     </div>
                 </div>
@@ -116,133 +78,100 @@
         </div>
 
         <!-- Charts Section -->
-        <div class="row mb-4">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
             <!-- Progress Chart -->
-            <div class="col-lg-8 mb-4">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0">
-                            <i class="lucide-line-chart" style="color: var(--neon-green);"></i>
-                            <span style="color: var(--neon-green);">Weekly Progress</span>
-                        </h5>
-                    </div>
-                    <div class="card-body">
-                        <canvas id="progressChart" style="max-height: 300px;"></canvas>
-                    </div>
+            <div class="lg:col-span-2 bg-bg-card/80 backdrop-blur-xl border border-border-color rounded-2xl shadow-lg">
+                <div class="bg-gradient-to-r from-neon-green to-neon-blue text-white p-4 rounded-t-2xl">
+                    <h5 class="text-lg font-semibold flex items-center gap-2">
+                        <i class="lucide-line-chart"></i> Weekly Progress
+                    </h5>
+                </div>
+                <div class="p-6">
+                    <canvas id="progressChart" style="max-height: 300px;"></canvas>
                 </div>
             </div>
 
             <!-- Category Distribution -->
-            <div class="col-lg-4 mb-4">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0">
-                            <i class="lucide-pie-chart" style="color: var(--neon-blue);"></i>
-                            <span style="color: var(--neon-blue);">Task Categories</span>
-                        </h5>
-                    </div>
-                    <div class="card-body">
-                        <canvas id="categoryChart" style="max-height: 300px;"></canvas>
-                    </div>
+            <div class="bg-bg-card/80 backdrop-blur-xl border border-border-color rounded-2xl shadow-lg">
+                <div class="bg-gradient-to-r from-neon-blue to-neon-cyan text-white p-4 rounded-t-2xl">
+                    <h5 class="text-lg font-semibold flex items-center gap-2">
+                        <i class="lucide-pie-chart"></i> Task Categories
+                    </h5>
+                </div>
+                <div class="p-6">
+                    <canvas id="categoryChart" style="max-height: 300px;"></canvas>
                 </div>
             </div>
         </div>
 
         <!-- Recent Achievements -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0">
-                            <i class="lucide-award" style="color: #F7DC6F;"></i> 
-                            <span style="color: #F7DC6F;">Recent Achievements</span>
-                        </h5>
-                    </div>
-                    <div class="card-body">
-                        @if($recentBadges->isNotEmpty())
-                            <div style="display: flex; flex-wrap: wrap; gap: var(--space-md);">
-                                @foreach($recentBadges as $badge)
-                                    <div
-                                        style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: var(--space-md); min-width: 200px; text-align: center; transition: var(--transition-normal);">
-                                        <div
-                                            style="width: 50px; height: 50px; background: var(--secondary-gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-sm); font-size: 24px;">
-                                            {{ $badge }}
-                                        </div>
-                                        <h6 style="color: var(--text-primary); margin-bottom: var(--space-xs); font-weight: 600;">
-                                            Achievement Badge
-                                        </h6>
-                                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0;">
-                                            Recent accomplishment
-                                        </p>
-                                    </div>
-                                @endforeach
+        <div class="bg-bg-card/80 backdrop-blur-xl border border-border-color rounded-2xl shadow-lg mb-8">
+            <div class="bg-gradient-to-r from-neon-yellow to-neon-orange text-white p-4 rounded-t-2xl">
+                <h5 class="text-lg font-semibold flex items-center gap-2">
+                    <i class="lucide-award"></i> Recent Achievements
+                </h5>
+            </div>
+            <div class="p-6">
+                @if($recentBadges->isNotEmpty())
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        @foreach($recentBadges as $badge)
+                            <div class="bg-bg-secondary/50 border border-border-color rounded-xl p-4 text-center hover:transform hover:scale-105 hover:shadow-lg transition-all duration-300">
+                                <div class="w-12 h-12 bg-gradient-to-br from-neon-green to-neon-blue rounded-full flex items-center justify-center mx-auto mb-3 text-2xl">
+                                    {{ $badge }}
+                                </div>
+                                <h6 class="text-text-primary font-semibold mb-1">Achievement Badge</h6>
+                                <p class="text-text-secondary text-sm">Recent accomplishment</p>
                             </div>
-                        @else
-                            <div style="text-align: center; padding: var(--space-xl);">
-                                <i class="lucide-award"
-                                    style="font-size: 48px; color: var(--text-muted); margin-bottom: var(--space-md);"></i>
-                                <p style="color: var(--text-secondary);">No achievements yet. Keep completing tasks to unlock
-                                    them!</p>
-                            </div>
-                        @endif
+                        @endforeach
                     </div>
-                </div>
+                @else
+                    <div class="text-center py-8">
+                        <i class="lucide-award text-5xl text-text-muted mb-4"></i>
+                        <p class="text-text-secondary">No achievements yet. Keep completing tasks to unlock them!</p>
+                    </div>
+                @endif
             </div>
         </div>
 
         <!-- Productivity Insights -->
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0">
-                            <i class="lucide-lightbulb" style="color: #FFC107;"></i> 
-                            <span style="color: #FFC107;">Productivity Insights</span>
-                        </h5>
-                    </div>
-                    <div class="card-body">
-                        <div
-                            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--space-lg);">
-                            <div
-                                style="background: var(--bg-secondary); border-radius: var(--radius-md); padding: var(--space-lg);">
-                                <div
-                                    style="display: flex; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-sm);">
-                                    <i class="lucide-clock" style="color: var(--neon-blue);"></i>
-                                    <h6 style="color: var(--text-primary); margin-bottom: 0;">Most Productive Time</h6>
-                                </div>
-                                <p style="color: var(--text-secondary); margin-bottom: 0;">9:00 AM - 11:00 AM</p>
-                            </div>
-
-                            <div
-                                style="background: var(--bg-secondary); border-radius: var(--radius-md); padding: var(--space-lg);">
-                                <div
-                                    style="display: flex; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-sm);">
-                                    <i class="lucide-calendar" style="color: var(--neon-cyan);"></i>
-                                    <h6 style="color: var(--text-primary); margin-bottom: 0;">Best Day</h6>
-                                </div>
-                                <p style="color: var(--text-secondary); margin-bottom: 0;">Wednesday</p>
-                            </div>
-
-                            <div
-                                style="background: var(--bg-secondary); border-radius: var(--radius-md); padding: var(--space-lg);">
-                                <div
-                                    style="display: flex; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-sm);">
-                                    <i class="lucide-target" style="color: var(--neon-purple);"></i>
-                                    <h6 style="color: var(--text-primary); margin-bottom: 0;">Focus Area</h6>
-                                </div>
-                                <p style="color: var(--text-secondary); margin-bottom: 0;">Health & Fitness</p>
-                            </div>
-
-                            <div
-                                style="background: var(--bg-secondary); border-radius: var(--radius-md); padding: var(--space-lg);">
-                                <div
-                                    style="display: flex; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-sm);">
-                                    <i class="lucide-zap" style="color: var(--neon-yellow);"></i>
-                                    <h6 style="color: var(--text-primary); margin-bottom: 0;">Productivity Score</h6>
-                                </div>
-                                <p style="color: var(--text-secondary); margin-bottom: 0;">87/100</p>
-                            </div>
+        <div class="bg-bg-card/80 backdrop-blur-xl border border-border-color rounded-2xl shadow-lg">
+            <div class="bg-gradient-to-r from-neon-yellow to-neon-orange text-white p-4 rounded-t-2xl">
+                <h5 class="text-lg font-semibold flex items-center gap-2">
+                    <i class="lucide-lightbulb"></i> Productivity Insights
+                </h5>
+            </div>
+            <div class="p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-bg-secondary/50 rounded-xl p-4 hover:bg-bg-secondary/70 transition-colors duration-300">
+                        <div class="flex items-center gap-3 mb-2">
+                            <i class="lucide-clock text-neon-blue"></i>
+                            <h6 class="text-text-primary font-semibold">Most Productive Time</h6>
                         </div>
+                        <p class="text-text-secondary">9:00 AM - 11:00 AM</p>
+                    </div>
+
+                    <div class="bg-bg-secondary/50 rounded-xl p-4 hover:bg-bg-secondary/70 transition-colors duration-300">
+                        <div class="flex items-center gap-3 mb-2">
+                            <i class="lucide-calendar text-neon-cyan"></i>
+                            <h6 class="text-text-primary font-semibold">Best Day</h6>
+                        </div>
+                        <p class="text-text-secondary">Wednesday</p>
+                    </div>
+
+                    <div class="bg-bg-secondary/50 rounded-xl p-4 hover:bg-bg-secondary/70 transition-colors duration-300">
+                        <div class="flex items-center gap-3 mb-2">
+                            <i class="lucide-target text-neon-purple"></i>
+                            <h6 class="text-text-primary font-semibold">Focus Area</h6>
+                        </div>
+                        <p class="text-text-secondary">Health & Fitness</p>
+                    </div>
+
+                    <div class="bg-bg-secondary/50 rounded-xl p-4 hover:bg-bg-secondary/70 transition-colors duration-300">
+                        <div class="flex items-center gap-3 mb-2">
+                            <i class="lucide-zap text-neon-yellow"></i>
+                            <h6 class="text-text-primary font-semibold">Productivity Score</h6>
+                        </div>
+                        <p class="text-text-secondary">87/100</p>
                     </div>
                 </div>
             </div>
@@ -340,15 +269,13 @@
         });
 
         // Add hover effects to achievement cards
-        document.querySelectorAll('.card-body > div > div').forEach(card => {
+        document.querySelectorAll('.grid > div > div').forEach(card => {
             card.addEventListener('mouseenter', function () {
                 this.style.transform = 'translateY(-4px)';
-                this.style.boxShadow = '0 8px 24px rgba(6, 255, 180, 0.3)';
             });
 
             card.addEventListener('mouseleave', function () {
                 this.style.transform = 'translateY(0)';
-                this.style.boxShadow = 'none';
             });
         });
     </script>

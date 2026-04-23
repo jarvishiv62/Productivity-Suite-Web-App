@@ -1,44 +1,42 @@
-<div class="row">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
     <!-- Tasks Column -->
-    <div class="col-lg-8">
+    <div class="lg:col-span-2 space-y-6">
         <!-- Goals Section -->
         @if($goals->isNotEmpty())
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h5 class="mb-0">
-                        <i class="lucide-target" style="color: var(--neon-cyan);"></i>
-                        <span
-                            style="background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">{{ ucfirst($section) }}
-                            Goals</span>
+            <div class="bg-bg-card/80 backdrop-blur-xl border border-border-color rounded-2xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-neon-cyan to-neon-blue text-white p-4">
+                    <h5 class="text-lg font-semibold flex items-center gap-2">
+                        <i class="lucide-target"></i>
+                        <span>{{ ucfirst($section) }} Goals</span>
                     </h5>
                 </div>
-                <div class="card-body">
+                <div class="p-4 space-y-4">
                     @foreach($goals as $goal)
-                        <div class="goal-item mb-3"
-                            style="padding: var(--space-md); border-radius: var(--radius-md); background: var(--bg-secondary);">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
+                        <div class="bg-bg-secondary/50 rounded-xl p-4 border border-border-color/50">
+                            <div class="flex justify-between items-center mb-3">
                                 <h6 class="mb-0">
                                     <a href="{{ route('goals.show', $goal) }}"
-                                        style="color: var(--text-accent); text-decoration: none; font-weight: 600;">
+                                        class="text-neon-cyan hover:text-neon-blue transition-colors duration-200 font-semibold">
                                         {{ $goal->title }}
                                     </a>
                                 </h6>
-                                <span class="badge bg-{{ $goal->getProgressColor() }}"
-                                    style="background: var(--secondary-gradient); color: var(--bg-primary);">
+                                <span
+                                    class="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-gradient-to-r from-neon-green to-neon-blue text-white">
                                     {{ number_format($goal->progress, 0) }}%
                                 </span>
                             </div>
-                            <div class="progress" style="height: 10px; background: var(--bg-tertiary);">
-                                <div class="progress-bar" role="progressbar"
-                                    style="width: {{ $goal->progress }}%; background: var(--secondary-gradient);">
+                            <div class="w-full bg-bg-tertiary rounded-full h-2 mb-3">
+                                <div class="bg-gradient-to-r from-neon-green to-neon-blue h-full rounded-full transition-all duration-500"
+                                    role="progressbar" data-goal-id="{{ $goal->id }}" style="width: {{ $goal->progress }}%">
                                 </div>
                             </div>
                             @if($goal->description)
-                                <p class="text-muted small mt-2 mb-0">{{ Str::limit($goal->description, 100) }}</p>
+                                <p class="text-text-secondary text-sm">{{ Str::limit($goal->description, 100) }}</p>
                             @endif
                         </div>
                     @endforeach
-                    <a href="{{ route('goals.create') }}?section={{ $section }}" class="btn btn-outline btn-sm">
+                    <a href="{{ route('goals.create') }}?section={{ $section }}"
+                        class="inline-flex items-center gap-2 px-4 py-2 border border-neon-cyan text-neon-cyan rounded-lg hover:bg-neon-cyan/10 transition-colors duration-200">
                         <i class="lucide-plus"></i> Add New Goal
                     </a>
                 </div>
@@ -46,42 +44,44 @@
         @endif
 
         <!-- Pending Tasks -->
-        <div class="card mb-4">
-            <div class="card-header">
-                <div class="d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">
+        <div class="bg-bg-card/80 backdrop-blur-xl border border-border-color rounded-2xl shadow-lg overflow-hidden">
+            <div class="bg-gradient-to-r from-neon-yellow to-neon-orange text-white p-4">
+                <div class="flex justify-between items-center">
+                    <h5 class="text-lg font-semibold flex items-center gap-2">
                         @if($section === 'daily')
-                            <i class="lucide-sun" style="color: var(--neon-yellow);"></i>
-                            <span style="color: var(--neon-yellow);">Today's Schedule</span>
+                            <i class="lucide-sun"></i>
+                            <span>Today's Schedule</span>
                         @else
-                            <i class="lucide-clock" style="color: var(--neon-blue);"></i>
-                            <span style="color: var(--neon-blue);">Pending Tasks</span>
+                            <i class="lucide-clock"></i>
+                            <span>Pending Tasks</span>
                         @endif
-                        <span class="badge bg-warning"
-                            style="background: var(--accent-gradient); color: white;">{{ $tasks->where('status', 'pending')->count() }}</span>
+                        <span class="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-white/20">
+                            {{ $tasks->where('status', 'pending')->count() }}
+                        </span>
                     </h5>
-                    <a href="{{ route('tasks.create') }}?section={{ $section }}" class="btn btn-primary btn-sm">
+                    <a href="{{ route('tasks.create') }}?section={{ $section }}"
+                        class="inline-flex items-center gap-2 px-3 py-1 bg-white/20 hover:bg-white/30 text-white font-medium rounded-lg transition-colors duration-200">
                         <i class="lucide-plus"></i> Add Task
                     </a>
                 </div>
             </div>
-            <ul class="list-group list-group-flush">
+            <div class="divide-y divide-border-color">
                 @forelse($tasks->where('status', 'pending') as $task)
-                    <li class="list-group-item task-item" data-task-id="{{ $task->id }}" @if($task->start_time)
-                    data-start-time="{{ $task->start_time->format('H:i:s') }}" @endif @if($task->end_time)
-                        data-end-time="{{ $task->end_time->format('H:i:s') }}" @endif
-                        style="position: relative; transition: var(--transition-normal);">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div class="flex-grow-1">
-                                <div class="d-flex align-items-start">
-                                    <div class="form-check">
-                                        <input class="form-check-input task-checkbox" type="checkbox"
-                                            id="task-{{ $task->id }}" data-task-id="{{ $task->id }}"
-                                            style="accent-color: var(--neon-cyan);">
+                    <div class="p-4 task-item hover:bg-bg-secondary/30 transition-colors duration-200"
+                        data-task-id="{{ $task->id }}" @if($task->goal) data-goal-id="{{ $task->goal->id }}" @endif
+                        @if($task->start_time) data-start-time="{{ $task->start_time->format('H:i:s') }}" @endif
+                        @if($task->end_time) data-end-time="{{ $task->end_time->format('H:i:s') }}" @endif>
+                        <div class="flex justify-between items-start gap-4">
+                            <div class="flex-1">
+                                <div class="flex items-start gap-3">
+                                    <div class="pt-1">
+                                        <input
+                                            class="task-checkbox w-5 h-5 text-neon-cyan bg-bg-secondary border-border-color rounded focus:ring-neon-cyan/50 cursor-pointer"
+                                            type="checkbox" id="task-{{ $task->id }}" data-task-id="{{ $task->id }}">
                                     </div>
-                                    <div class="flex-grow-1">
-                                        <label class="form-check-label" for="task-{{ $task->id }}" style="cursor: pointer;">
-                                            <h6 class="mb-1" style="color: var(--text-primary); font-weight: 600;">
+                                    <div class="flex-1">
+                                        <label for="task-{{ $task->id }}" class="cursor-pointer">
+                                            <h6 class="text-text-primary font-semibold mb-1">
                                                 {{ $task->title }}
                                                 <span class="task-status-badge"></span>
                                             </h6>
@@ -90,12 +90,13 @@
                                         <!-- Time Badge for Daily Tasks -->
                                         @if($section === 'daily' && $task->time_range)
                                             <div class="mb-2">
-                                                <span class="badge bg-primary"
-                                                    style="background: var(--primary-gradient); color: white;">
-                                                    <i class="lucide-clock"></i> {{ $task->time_range }}
+                                                <span
+                                                    class="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold rounded-full bg-gradient-to-r from-neon-pink to-neon-purple text-white">
+                                                    <i class="lucide-clock text-xs"></i> {{ $task->time_range }}
                                                 </span>
                                                 @if($task->duration)
-                                                    <span class="badge bg-secondary">
+                                                    <span
+                                                        class="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-neon-blue/20 text-neon-blue ml-2">
                                                         {{ $task->duration }} min
                                                     </span>
                                                 @endif
@@ -103,205 +104,214 @@
                                         @endif
 
                                         @if($task->goal)
-                                            <span class="badge bg-info" style="background: var(--neon-blue); color: white;">
-                                                <i class="lucide-target"></i> {{ $task->goal->title }}
+                                            <span
+                                                class="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold rounded-full bg-neon-blue/20 text-neon-blue">
+                                                <i class="lucide-target text-xs"></i> {{ $task->goal->title }}
                                             </span>
                                         @endif
                                         @if($task->description)
-                                            <p class="text-muted small mb-1">{{ $task->description }}</p>
+                                            <p class="text-text-secondary text-sm mb-1">{{ $task->description }}</p>
                                         @endif
                                         @if($task->due_date && $section !== 'daily')
-                                            <small>
-                                                <i class="lucide-calendar"></i>
-                                                <span class="{{ $task->isOverdue() ? 'text-danger fw-bold' : 'text-muted' }}">
+                                            <div class="text-sm">
+                                                <i class="lucide-calendar text-text-muted"></i>
+                                                <span
+                                                    class="{{ $task->isOverdue() ? 'text-neon-orange font-semibold' : 'text-text-muted' }}">
                                                     {{ $task->due_date->format('M j, Y') }}
                                                     @if($task->isOverdue())
                                                         (Overdue)
                                                     @endif
                                                 </span>
-                                            </small>
+                                            </div>
                                         @endif
                                     </div>
                                 </div>
                             </div>
-                            <div style="display: flex; gap: var(--space-xs);">
-                                <a href="{{ route('tasks.edit', $task) }}" class="action-btn edit-btn"
-                                    style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: var(--radius-md); background: var(--bg-tertiary); border: 1px solid var(--neon-green); color: var(--neon-green); text-decoration: none; transition: var(--transition-normal);"
+                            <div class="flex items-center gap-2">
+                                <a href="{{ route('tasks.edit', $task) }}"
+                                    class="action-btn edit-btn p-2 text-neon-green hover:bg-neon-green/10 rounded-lg transition-colors duration-200"
                                     title="Edit Task">
-                                    ✏️
+                                    <i class="lucide-edit-2"></i>
                                 </a>
-                                <form action="{{ route('tasks.destroy', $task) }}" method="POST" class="d-inline"
+                                <form action="{{ route('tasks.destroy', $task) }}" method="POST" class="inline"
                                     onsubmit="return confirm('Are you sure you want to delete this task?');">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="action-btn delete-btn"
-                                        style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: var(--radius-md); background: var(--bg-tertiary); border: 1px solid var(--neon-orange); color: var(--neon-orange); cursor: pointer; transition: var(--transition-normal);"
+                                    <button type="submit"
+                                        class="action-btn delete-btn p-2 text-neon-orange hover:bg-neon-orange/10 rounded-lg transition-colors duration-200"
                                         title="Delete Task">
-                                        🗑️
+                                        <i class="lucide-trash-2"></i>
                                     </button>
                                 </form>
                             </div>
                         </div>
-                    </li>
+                    </div>
                 @empty
-                    <li class="list-group-item text-center py-4" style="background: var(--bg-secondary);">
-                        <i class="lucide-check-circle display-4" style="color: var(--neon-cyan);"></i>
-                        <p class="mt-2 mb-0" style="color: var(--text-secondary);">No pending tasks! Time to create new ones
-                            or celebrate.</p>
-                    </li>
+                    <div class="p-8 text-center bg-bg-secondary/30">
+                        <i class="lucide-check-circle text-4xl text-neon-cyan mb-3"></i>
+                        <p class="text-text-secondary">No pending tasks! Time to create new ones or celebrate.</p>
+                    </div>
                 @endforelse
-            </ul>
+            </div>
         </div>
 
         <!-- Completed Tasks -->
         @if($tasks->where('status', 'completed')->count() > 0)
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0">
-                        <i class="lucide-check-circle" style="color: var(--neon-cyan);"></i>
-                        <span style="color: var(--neon-cyan);">Completed Tasks</span>
-                        <span class="badge bg-success"
-                            style="background: var(--secondary-gradient); color: var(--bg-primary);">{{ $tasks->where('status', 'completed')->count() }}</span>
+            <div class="bg-bg-card/80 backdrop-blur-xl border border-border-color rounded-2xl shadow-lg overflow-hidden">
+                <div class="bg-gradient-to-r from-neon-green to-neon-blue text-white p-4">
+                    <h5 class="text-lg font-semibold flex items-center gap-2">
+                        <i class="lucide-check-circle"></i>
+                        <span>Completed Tasks</span>
+                        <span class="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full bg-white/20">
+                            {{ $tasks->where('status', 'completed')->count() }}
+                        </span>
                     </h5>
                 </div>
-                <ul class="list-group list-group-flush">
+                <div class="divide-y divide-border-color opacity-70">
                     @foreach($tasks->where('status', 'completed') as $task)
-                        <li class="list-group-item" style="opacity: 0.7;">
-                            <div class="d-flex justify-content-between align-items-start">
-                                <div class="flex-grow-1">
-                                    <div class="d-flex align-items-start">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" checked disabled>
+                        <div class="p-4">
+                            <div class="flex justify-between items-start gap-4">
+                                <div class="flex-1">
+                                    <div class="flex items-start gap-3">
+                                        <div class="pt-1">
+                                            <input class="w-5 h-5 text-neon-green bg-bg-secondary border-border-color rounded"
+                                                type="checkbox" checked disabled>
                                         </div>
-                                        <div class="flex-grow-1">
-                                            <label class="form-check-label"
-                                                style="text-decoration: line-through; color: var(--text-muted);">
-                                                <h6 class="mb-1">{{ $task->title }}</h6>
-                                            </label>
+                                        <div class="flex-1">
+                                            <h6 class="text-text-muted line-through mb-1">{{ $task->title }}</h6>
                                             @if($section === 'daily' && $task->time_range)
-                                                <span class="badge bg-secondary">
-                                                    <i class="lucide-clock"></i> {{ $task->time_range }}
+                                                <span
+                                                    class="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold rounded-full bg-neon-blue/20 text-neon-blue">
+                                                    <i class="lucide-clock text-xs"></i> {{ $task->time_range }}
                                                 </span>
                                             @endif
                                         </div>
                                     </div>
                                 </div>
-                                <form action="{{ route('tasks.destroy', $task) }}" method="POST" class="d-inline"
+                                <form action="{{ route('tasks.destroy', $task) }}" method="POST" class="inline"
                                     onsubmit="return confirm('Are you sure you want to delete this task?');">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="action-btn delete-btn"
-                                        style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: var(--radius-md); background: var(--bg-tertiary); border: 1px solid var(--neon-orange); color: var(--neon-orange); cursor: pointer; transition: var(--transition-normal);"
+                                    <button type="submit"
+                                        class="action-btn delete-btn p-2 text-neon-orange hover:bg-neon-orange/10 rounded-lg transition-colors duration-200"
                                         title="Delete Task">
-                                        🗑️
+                                        <i class="lucide-trash-2"></i>
                                     </button>
                                 </form>
                             </div>
-                        </li>
+                        </div>
                     @endforeach
-                </ul>
+                </div>
             </div>
         @endif
     </div>
 
     <!-- Sidebar -->
-    <div class="col-lg-4">
+    <div class="space-y-6">
         <!-- Current Time (for daily section) -->
         @if($section === 'daily')
-            <div class="card mb-3 time-display">
-                <div class="card-body text-center">
-                    <h6 class="card-title mb-2">
-                        <i class="lucide-clock"></i> Current Time
-                    </h6>
-                    <h3 class="mb-0" id="currentTime">{{ now()->format('g:i A') }}</h3>
-                    <p class="small mb-0 mt-1" id="currentDate">{{ now()->format('l, F j') }}</p>
-                </div>
+            <div class="bg-bg-card/80 backdrop-blur-xl border border-border-color rounded-2xl shadow-lg p-6 text-center">
+                <h6 class="text-lg font-semibold text-text-primary mb-3 flex items-center justify-center gap-2">
+                    <i class="lucide-clock text-neon-cyan"></i> Current Time
+                </h6>
+                <h3 class="text-2xl font-bold text-neon-cyan mb-1" id="currentTime">{{ now()->format('g:i A') }}</h3>
+                <p class="text-text-secondary text-sm" id="currentDate">{{ now()->format('l, F j') }}</p>
             </div>
         @endif
 
         <!-- Progress Summary -->
-        <div class="card mb-3">
-            <div class="card-body">
-                <h5 class="card-title">
-                    <i class="lucide-trending-up" style="color: var(--neon-cyan);"></i>
-                    <span style="color: var(--neon-cyan);">Progress Summary</span>
-                </h5>
-                <div class="progress mb-2" style="height: 25px; background: var(--bg-tertiary);">
-                    @php
-                        $totalTasks = $tasks->count();
-                        $completedTasks = $tasks->where('status', 'completed')->count();
-                        $percentage = $totalTasks > 0 ? round(($completedTasks / $totalTasks) * 100) : 0;
-                    @endphp
-                    <div class="progress-bar" role="progressbar"
-                        style="width: {{ $percentage }}%; background: var(--secondary-gradient); color: var(--bg-primary); font-weight: 600;">
-                        {{ $percentage }}%
-                    </div>
+        <div class="bg-bg-card/80 backdrop-blur-xl border border-border-color rounded-2xl shadow-lg p-6">
+            <h5 class="text-lg font-semibold text-text-primary mb-4 flex items-center gap-2">
+                <i class="lucide-trending-up text-neon-cyan"></i> Progress Summary
+            </h5>
+            @php
+                $totalTasks = $tasks->count();
+                $completedTasks = $tasks->where('status', 'completed')->count();
+                $percentage = $totalTasks > 0 ? round(($completedTasks / $totalTasks) * 100) : 0;
+            @endphp
+            <div class="w-full bg-bg-tertiary rounded-full h-6 mb-3">
+                <div class="bg-gradient-to-r from-neon-green to-neon-blue h-full rounded-full transition-all duration-500 flex items-center justify-center text-xs font-semibold text-white"
+                    role="progressbar" data-goal-id="sidebar-progress" style="width: {{ $percentage }}%">
+                    {{ $percentage }}%
                 </div>
-                <p class="text-muted small mb-0">
-                    {{ $completedTasks }} of {{ $totalTasks }} tasks completed
-                </p>
             </div>
+            <p class="text-text-secondary text-sm">
+                {{ $completedTasks }} of {{ $totalTasks }} tasks completed
+            </p>
         </div>
 
         <!-- Quick Stats -->
-        <div class="card mb-3">
-            <div class="card-body">
-                <h5 class="card-title">
-                    <i class="lucide-bar-chart-2" style="color: var(--neon-blue);"></i>
-                    <span style="color: var(--neon-blue);">Quick Stats</span>
-                </h5>
-                <ul class="list-unstyled mb-0">
-                    @if($section === 'daily')
-                        <li class="mb-2">
-                            <i class="lucide-play-circle" style="color: var(--neon-cyan);"></i>
-                            <strong>Ongoing:</strong> {{ $tasks->filter(fn($t) => $t->isOngoing())->count() }}
-                        </li>
-                        <li class="mb-2">
-                            <i class="lucide-clock" style="color: var(--neon-blue);"></i>
-                            <strong>Upcoming:</strong> {{ $tasks->filter(fn($t) => $t->isUpcoming())->count() }}
-                        </li>
-                    @endif
-                    <li class="mb-2">
-                        <i class="lucide-hourglass" style="color: var(--neon-yellow);"></i>
-                        <strong>Pending:</strong> {{ $tasks->where('status', 'pending')->count() }}
-                    </li>
-                    <li class="mb-2">
-                        <i class="lucide-check-circle" style="color: var(--neon-cyan);"></i>
-                        <strong>Completed:</strong> {{ $tasks->where('status', 'completed')->count() }}
-                    </li>
-                    @if($section !== 'daily')
-                        <li class="mb-2">
-                            <i class="lucide-alert-triangle" style="color: var(--neon-orange);"></i>
-                            <strong>Overdue:</strong> {{ $tasks->filter(fn($t) => $t->isOverdue())->count() }}
-                        </li>
-                    @endif
-                    <li>
-                        <i class="lucide-target" style="color: var(--neon-purple);"></i>
-                        <strong>Goals:</strong> {{ $goals->count() }}
-                    </li>
-                </ul>
+        <div class="bg-bg-card/80 backdrop-blur-xl border border-border-color rounded-2xl shadow-lg p-6">
+            <h5 class="text-lg font-semibold text-text-primary mb-4 flex items-center gap-2">
+                <i class="lucide-bar-chart-2 text-neon-blue"></i> Quick Stats
+            </h5>
+            <div class="space-y-3">
+                @if($section === 'daily')
+                    <div class="flex justify-between items-center">
+                        <span class="text-text-secondary text-sm flex items-center gap-2">
+                            <i class="lucide-play-circle text-neon-cyan"></i> Ongoing
+                        </span>
+                        <span
+                            class="text-neon-cyan font-semibold">{{ $tasks->filter(fn($t) => $t->isOngoing())->count() }}</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-text-secondary text-sm flex items-center gap-2">
+                            <i class="lucide-clock text-neon-blue"></i> Upcoming
+                        </span>
+                        <span
+                            class="text-neon-blue font-semibold">{{ $tasks->filter(fn($t) => $t->isUpcoming())->count() }}</span>
+                    </div>
+                @endif
+                <div class="flex justify-between items-center">
+                    <span class="text-text-secondary text-sm flex items-center gap-2">
+                        <i class="lucide-hourglass text-neon-yellow"></i> Pending
+                    </span>
+                    <span
+                        class="text-neon-yellow font-semibold">{{ $tasks->where('status', 'pending')->count() }}</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-text-secondary text-sm flex items-center gap-2">
+                        <i class="lucide-check-circle text-neon-cyan"></i> Completed
+                    </span>
+                    <span
+                        class="text-neon-cyan font-semibold">{{ $tasks->where('status', 'completed')->count() }}</span>
+                </div>
+                @if($section !== 'daily')
+                    <div class="flex justify-between items-center">
+                        <span class="text-text-secondary text-sm flex items-center gap-2">
+                            <i class="lucide-alert-triangle text-neon-orange"></i> Overdue
+                        </span>
+                        <span
+                            class="text-neon-orange font-semibold">{{ $tasks->filter(fn($t) => $t->isOverdue())->count() }}</span>
+                    </div>
+                @endif
+                <div class="flex justify-between items-center">
+                    <span class="text-text-secondary text-sm flex items-center gap-2">
+                        <i class="lucide-target text-neon-purple"></i> Goals
+                    </span>
+                    <span class="text-neon-purple font-semibold">{{ $goals->count() }}</span>
+                </div>
             </div>
         </div>
 
         <!-- Quick Actions -->
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">
-                    <i class="lucide-zap" style="color: var(--neon-yellow);"></i>
-                    <span style="color: var(--neon-yellow);">Quick Actions</span>
-                </h5>
-                <div class="d-grid gap-2">
-                    <a href="{{ route('tasks.create') }}?section={{ $section }}" class="btn btn-outline">
-                        <i class="lucide-plus"></i> Add {{ ucfirst($section) }} Task
-                    </a>
-                    <a href="{{ route('goals.create') }}?section={{ $section }}" class="btn btn-secondary">
-                        <i class="lucide-target"></i> Create {{ ucfirst($section) }} Goal
-                    </a>
-                    <a href="{{ route('goals.index') }}?section={{ $section }}" class="btn btn-outline"
-                        style="border-color: var(--neon-green); color: var(--neon-green);">
-                        👁️ View All Goals
-                    </a>
-                </div>
+        <div class="bg-bg-card/80 backdrop-blur-xl border border-border-color rounded-2xl shadow-lg p-6">
+            <h5 class="text-lg font-semibold text-text-primary mb-4 flex items-center gap-2">
+                <i class="lucide-zap text-neon-yellow"></i> Quick Actions
+            </h5>
+            <div class="space-y-3">
+                <a href="{{ route('tasks.create') }}?section={{ $section }}"
+                    class="block w-full text-center px-4 py-2 border border-neon-cyan text-neon-cyan rounded-lg hover:bg-neon-cyan/10 transition-colors duration-200">
+                    <i class="lucide-plus"></i> Add {{ ucfirst($section) }} Task
+                </a>
+                <a href="{{ route('goals.create') }}?section={{ $section }}"
+                    class="block w-full text-center px-4 py-2 bg-bg-secondary border border-border-color text-text-secondary rounded-lg hover:bg-bg-hover transition-colors duration-300">
+                    <i class="lucide-target"></i> Create {{ ucfirst($section) }} Goal
+                </a>
+                <a href="{{ route('goals.index') }}?section={{ $section }}"
+                    class="block w-full text-center px-4 py-2 border border-neon-green text-neon-green rounded-lg hover:bg-neon-green/10 transition-colors duration-200">
+                    <i class="lucide-eye"></i> View All Goals
+                </a>
             </div>
         </div>
     </div>
@@ -340,25 +350,22 @@
                 const currentTime = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
                 const statusConfig = {
                     ongoing: {
-                        class: 'task-ongoing',
-                        html: `
-                                                    <span class="badge bg-success pulse-animation">
-                                                        <i class="bi bi-play-fill"></i> In Progress
-                                                    </span>`
+                        class: 'task-ongoing bg-neon-green/10 border-l-4 border-neon-green',
+                        html: `<span class="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold rounded-full bg-neon-green text-white animate-pulse">
+                                            <i class="lucide-play text-xs"></i> In Progress
+                                        </span>`
                     },
                     upcoming: {
-                        class: 'task-upcoming',
-                        html: `
-                                                    <span class="badge bg-info">
-                                                        <i class="bi bi-clock"></i> Upcoming
-                                                    </span>`
+                        class: 'task-upcoming bg-neon-blue/10 border-l-4 border-neon-blue',
+                        html: `<span class="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold rounded-full bg-neon-blue text-white">
+                                            <i class="lucide-clock text-xs"></i> Upcoming
+                                        </span>`
                     },
                     past: {
-                        class: 'task-past',
-                        html: `
-                                                    <span class="badge bg-danger">
-                                                        <i class="bi bi-exclamation-triangle"></i> Missed
-                                                    </span>`
+                        class: 'task-past bg-neon-orange/10 border-l-4 border-neon-orange',
+                        html: `<span class="inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold rounded-full bg-neon-orange text-white">
+                                            <i class="lucide-alert-triangle text-xs"></i> Missed
+                                        </span>`
                     }
                 };
 
@@ -389,9 +396,8 @@
 
                     // Update UI
                     taskItem.className = taskItem.className
-                        .replace(/\b(task-ongoing|task-upcoming|task-past)\b/g, '')
-                        .trim();
-                    taskItem.classList.add(statusConfig[status].class);
+                        .replace(/\b(task-ongoing|task-upcoming|task-past|bg-\w+\/\d+|border-l-\d+|border-\w+)\b/g, '')
+                        .trim() + ' p-4 task-item hover:bg-bg-secondary/30 transition-colors duration-200 ' + statusConfig[status].class;
                     statusBadge.innerHTML = statusConfig[status].html;
                 });
             }

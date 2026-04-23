@@ -1,220 +1,206 @@
 @extends('layouts.app')
 
-@section('title', 'My Daily Tasks')
+@section('title', 'My Tasks')
 
 @section('content')
-    <div class="container">
-        <div class="row mb-4">
-            <div class="col-md-12">
-                <div class="d-flex justify-content-between align-items-center">
-                    <h1 class="display-5">
-                        <i class="bi bi-list-task text-primary"></i> My Daily Tasks
-                    </h1>
-                    <a href="{{ route('tasks.create') }}" class="btn btn-primary btn-lg">
-                        <i class="bi bi-plus-circle"></i> Add New Task
-                    </a>
+<div class="max-w-7xl mx-auto px-4 py-8 pt-24">
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <div class="flex flex-col sm:flex-row justify-between items-center mb-8">
+            <div>
+                <h1 class="text-4xl font-bold text-text-primary mb-2 flex items-center gap-3">
+                    <i class="lucide-list-checks text-neon-cyan"></i>
+                    My Tasks
+                </h1>
+                <p class="text-text-secondary">{{ now()->format('l, F j, Y') }}</p>
+            </div>
+
+            <!-- Category Toggles -->
+            <div class="flex flex-col sm:flex-row gap-2">
+                <!-- Filter Buttons -->
+                <div class="flex gap-2">
+                    <button onclick="filterTasks('all')"
+                        class="category-btn flex items-center gap-2 px-4 py-2 bg-bg-secondary border border-border-color rounded-lg text-text-secondary font-medium hover:bg-bg-hover hover:text-neon-cyan transition-all duration-300 active:bg-bg-hover active:text-neon-cyan active:border-neon-cyan"
+                        data-category="all">
+                        <i class="lucide-layers"></i>
+                        All Tasks
+                    </button>
+                    <button onclick="filterTasks('daily')"
+                        class="category-btn flex items-center gap-2 px-4 py-2 bg-bg-secondary border border-border-color rounded-lg text-text-secondary font-medium hover:bg-bg-hover hover:text-neon-cyan transition-all duration-300 active:bg-bg-hover active:text-neon-cyan active:border-neon-cyan"
+                        data-category="daily">
+                        <i class="lucide-sun"></i>
+                        Daily
+                    </button>
+                    <button onclick="filterTasks('weekly')"
+                        class="category-btn flex items-center gap-2 px-4 py-2 bg-bg-secondary border border-border-color rounded-lg text-text-secondary font-medium hover:bg-bg-hover hover:text-neon-cyan transition-all duration-300 active:bg-bg-hover active:text-neon-cyan active:border-neon-cyan"
+                        data-category="weekly">
+                        <i class="lucide-calendar"></i>
+                        Weekly
+                    </button>
+                    <button onclick="filterTasks('monthly')"
+                        class="category-btn flex items-center gap-2 px-4 py-2 bg-bg-secondary border border-border-color rounded-lg text-text-secondary font-medium hover:bg-bg-hover hover:text-neon-cyan transition-all duration-300 active:bg-bg-hover active:text-neon-cyan active:border-neon-cyan"
+                        data-category="monthly">
+                        <i class="lucide-calendar-days"></i>
+                        Monthly
+                    </button>
                 </div>
-                <p class="text-muted">{{ now()->format('l, F j, Y') }}</p>
+
+                <!-- Add Task Button -->
+                <a href="{{ route('tasks.create') }}"
+                    class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-neon-blue to-neon-purple text-white font-semibold rounded-xl hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-neon-blue/25 transition-all duration-300 group relative overflow-hidden">
+                    <i class="lucide-plus relative z-10"></i>
+                    <span class="relative z-10">Add New Task</span>
+                    <div
+                        class="absolute inset-0 bg-gradient-to-r from-neon-blue to-neon-purple opacity-0 group-hover:opacity-100 blur-lg transition-opacity duration-300">
+                    </div>
+                </a>
             </div>
         </div>
 
         @if($tasks->isEmpty())
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card shadow-sm">
-                        <div class="card-body text-center py-5">
-                            <i class="bi bi-inbox display-1 text-muted"></i>
-                            <h3 class="mt-3">No tasks yet!</h3>
-                            <p class="text-muted">Start your productive day by adding your first task.</p>
-                            <a href="{{ route('tasks.create') }}" class="btn btn-primary mt-2">
-                                <i class="bi bi-plus-circle"></i> Create Your First Task
-                            </a>
-                        </div>
-                    </div>
+            <!-- Empty State -->
+            <div class="text-center py-16">
+                <div class="inline-flex items-center justify-center w-24 h-24 bg-bg-secondary/50 border border-border-color rounded-3xl mb-6">
+                    <i class="lucide-inbox text-text-muted text-4xl"></i>
                 </div>
+                <h3 class="text-2xl font-semibold text-text-primary mb-4">No tasks yet!</h3>
+                <p class="text-text-secondary mb-8 max-w-md mx-auto">Start your productive day by adding your first task. Stay organized and crush your goals!</p>
+                <a href="{{ route('tasks.create') }}"
+                    class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-neon-green to-neon-blue text-bg-primary font-semibold rounded-xl hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-neon-green/25 transition-all duration-300">
+                    <i class="lucide-plus-circle mr-2"></i>
+                    Create Your First Task
+                </a>
             </div>
         @else
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="card shadow-sm">
-                        <div class="card-header bg-white">
-                            <h5 class="mb-0">
-                                <i class="bi bi-clock-history"></i> Pending Tasks
-                                <span
-                                    class="badge bg-warning text-dark">{{ $tasks->where('status', 'pending')->count() }}</span>
-                            </h5>
-                        </div>
-                        <ul class="list-group list-group-flush">
-                            @forelse($tasks->where('status', 'pending') as $task)
-                                <li class="list-group-item task-item" data-task-id="{{ $task->id }}">
-                                    <div class="d-flex justify-content-between align-items-start">
-                                        <div class="flex-grow-1">
-                                            <div class="form-check">
-                                                <input class="form-check-input task-checkbox" type="checkbox"
-                                                    id="task-{{ $task->id }}" data-task-id="{{ $task->id }}">
-                                                <label class="form-check-label" for="task-{{ $task->id }}">
-                                                    <h6 class="mb-1">{{ $task->title }}</h6>
-                                                </label>
-                                            </div>
-                                            @if($task->description)
-                                                <p class="text-muted small mb-1 ms-4">{{ $task->description }}</p>
-                                            @endif
-                                            @if($task->due_date)
-                                                <small class="ms-4">
-                                                    <i class="bi bi-calendar-event"></i>
-                                                    <span class="{{ $task->isOverdue() ? 'text-danger fw-bold' : 'text-muted' }}">
-                                                        {{ $task->due_date->format('M j, Y') }}
-                                                        @if($task->isOverdue())
-                                                            (Overdue)
-                                                        @endif
-                                                    </span>
-                                                </small>
-                                            @endif
-                                        </div>
-                                        <div class="btn-group" role="group">
-                                            <a href="{{ route('tasks.edit', $task) }}" class="btn btn-sm btn-outline-primary">
-                                                <i class="bi bi-pencil"></i>
-                                            </a>
-                                            <form action="{{ route('tasks.destroy', $task) }}" method="POST" class="d-inline"
-                                                onsubmit="return confirm('Are you sure you want to delete this task?');">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-sm btn-outline-danger">
-                                                    <i class="bi bi-trash"></i>
-                                                </button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </li>
-                            @empty
-                                <li class="list-group-item text-center text-muted py-4">
-                                    <i class="bi bi-check-circle display-4"></i>
-                                    <p class="mt-2 mb-0">All tasks completed! Great job!</p>
-                                </li>
-                            @endforelse
-                        </ul>
-                    </div>
-
-                    @if($tasks->where('status', 'completed')->count() > 0)
-                        <div class="card shadow-sm mt-4">
-                            <div class="card-header bg-white">
-                                <h5 class="mb-0">
-                                    <i class="bi bi-check-circle-fill text-success"></i> Completed Tasks
-                                    <span class="badge bg-success">{{ $tasks->where('status', 'completed')->count() }}</span>
-                                </h5>
+            <!-- Tasks Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                @foreach($tasks as $task)
+                    <div class="task-card bg-bg-card/80 backdrop-blur-xl border border-border-color rounded-2xl p-6 shadow-lg hover:transform hover:scale-105 transition-all duration-300 relative overflow-hidden group"
+                        data-section="{{ $task->section }}">
+                        <!-- Task Header -->
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex-1">
+                                <h3 class="text-lg font-semibold text-text-primary mb-2 pr-2">{{ $task->title }}</h3>
+                                @if($task->description)
+                                    <p class="text-text-secondary text-sm line-clamp-2">{{ $task->description }}</p>
+                                @endif
                             </div>
-                            <ul class="list-group list-group-flush">
-                                @foreach($tasks->where('status', 'completed') as $task)
-                                    <li class="list-group-item task-item completed">
-                                        <div class="d-flex justify-content-between align-items-start">
-                                            <div class="flex-grow-1">
-                                                <div class="form-check">
-                                                    <input class="form-check-input task-checkbox" type="checkbox" checked
-                                                        id="task-{{ $task->id }}" data-task-id="{{ $task->id }}">
-                                                    <label class="form-check-label text-decoration-line-through text-muted"
-                                                        for="task-{{ $task->id }}">
-                                                        <h6 class="mb-1">{{ $task->title }}</h6>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="btn-group" role="group">
-                                                <form action="{{ route('tasks.destroy', $task) }}" method="POST" class="d-inline"
-                                                    onsubmit="return confirm('Are you sure you want to delete this task?');">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-outline-danger">
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-                </div>
+                            <div class="flex items-center gap-2">
+                                <!-- Status Badge -->
+                                <span class="px-3 py-1 text-xs font-medium rounded-full {{ $task->status === 'completed' ? 'bg-neon-green/20 text-neon-green border border-neon-green/30' : 'bg-neon-yellow/20 text-neon-yellow border border-neon-yellow/30' }}">
+                                    {{ ucfirst($task->status) }}
+                                </span>
 
-                <!-- Sidebar -->
-                <div class="col-md-4">
-                    <div class="card shadow-sm mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <i class="bi bi-graph-up text-primary"></i> Progress
-                            </h5>
-                            <div class="progress mb-2" style="height: 25px;">
-                                @php
-                                    $totalTasks = $tasks->count();
-                                    $completedTasks = $tasks->where('status', 'completed')->count();
-                                    $percentage = $totalTasks > 0 ? round(($completedTasks / $totalTasks) * 100) : 0;
-                                @endphp
-                                <div class="progress-bar bg-success" role="progressbar" style="width: {{ $percentage }}%">
-                                    {{ $percentage }}%
+                                <!-- Action Buttons -->
+                                <div class="flex items-center gap-2">
+                                    <a href="{{ route('tasks.edit', $task) }}"
+                                        class="p-2 text-neon-cyan hover:text-neon-blue transition-colors">
+                                        <i class="lucide-edit-2"></i>
+                                    </a>
+                                    <form action="{{ route('tasks.destroy', $task) }}" method="POST"
+                                        onsubmit="return confirm('Are you sure you want to delete this task?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="p-2 text-neon-orange hover:text-red-400 transition-colors">
+                                            <i class="lucide-trash-2"></i>
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
-                            <p class="text-muted small mb-0">
-                                {{ $completedTasks }} of {{ $totalTasks }} tasks completed
-                            </p>
                         </div>
-                    </div>
 
-                    <div class="card shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <i class="bi bi-info-circle text-info"></i> Quick Tips
-                            </h5>
-                            <ul class="small text-muted ps-3">
-                                <li>Click the checkbox to mark tasks as complete</li>
-                                <li>Set due dates to track deadlines</li>
-                                <li>Edit tasks anytime you need</li>
-                                <li>Stay focused on daily goals</li>
-                            </ul>
+                        <!-- Task Meta -->
+                        <div class="space-y-3 text-sm text-text-secondary">
+                            <!-- Section -->
+                            <div class="flex items-center gap-2">
+                                <i class="lucide-calendar text-neon-cyan"></i>
+                                <span>{{ ucfirst($task->section) }}</span>
+                            </div>
+
+                            <!-- Time Schedule (if daily) -->
+                            @if($task->section === 'daily' && ($task->start_time || $task->end_time))
+                                <div class="flex items-center gap-2">
+                                    <i class="lucide-clock text-neon-cyan"></i>
+                                    <span>
+                                        @if($task->start_time) {{ $task->start_time }}@endif
+                                        @if($task->start_time && $task->end_time) - @endif
+                                        @if($task->end_time) {{ $task->end_time }}@endif
+                                    </span>
+                                </div>
+                            @endif
+
+                            <!-- Due Date -->
+                            @if($task->due_date)
+                                <div class="flex items-center gap-2">
+                                    <i class="lucide-calendar-x text-neon-cyan"></i>
+                                    <span>Due: {{ $task->due_date->format('M j, Y') }}</span>
+                                </div>
+                            @endif
+
+                            <!-- Goal -->
+                            @if($task->goal)
+                                <div class="flex items-center gap-2">
+                                    <i class="lucide-flag text-neon-cyan"></i>
+                                    <a href="{{ route('goals.show', $task->goal) }}"
+                                        class="text-neon-cyan hover:text-neon-blue transition-colors hover:underline">
+                                        {{ $task->goal->title }}
+                                    </a>
+                                </div>
+                            @endif
+
+                            <!-- Created Date -->
+                            <div class="flex items-center gap-2">
+                                <i class="lucide-plus-circle text-neon-cyan"></i>
+                                <span>Created: {{ $task->created_at->format('M j, Y') }}</span>
+                            </div>
                         </div>
+
+                        <!-- Hover Effect -->
+                        <div class="absolute inset-0 bg-gradient-to-r from-neon-blue/10 to-neon-purple/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </div>
-                </div>
+                @endforeach
             </div>
+
+            <!-- Pagination -->
+            @if(method_exists($tasks, 'links'))
+                <div class="flex justify-center mt-8">
+                    {{ $tasks->links() }}
+                </div>
+            @endif
         @endif
     </div>
-@endsection
+</div>
 
 @push('scripts')
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Get CSRF token
-            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-            // Add event listeners to all task checkboxes
-            const checkboxes = document.querySelectorAll('.task-checkbox');
-
-            checkboxes.forEach(checkbox => {
-                checkbox.addEventListener('change', function () {
-                    const taskId = this.dataset.taskId;
-                    const taskItem = this.closest('.task-item');
-
-                    // Send AJAX request to toggle task status
-                    fetch(`/tasks/${taskId}/toggle`, {
-                        method: 'PATCH',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': csrfToken,
-                            'Accept': 'application/json'
-                        }
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                // Reload page to update task lists
-                                window.location.reload();
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            // Revert checkbox state on error
-                            this.checked = !this.checked;
-                            alert('Failed to update task status. Please try again.');
-                        });
-                });
+        // Filter tasks by category
+        function filterTasks(category) {
+            // Update active button
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
             });
+
+            // Set active button
+            const activeBtn = document.querySelector(`[data-category="${category}"]`);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+
+            // Filter task cards
+            const taskCards = document.querySelectorAll('.task-card');
+            taskCards.forEach(card => {
+                const cardSection = card.dataset.section;
+                if (category === 'all' || cardSection === category) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        // Initialize with 'all' filter
+        document.addEventListener('DOMContentLoaded', function () {
+            filterTasks('all');
         });
     </script>
 @endpush

@@ -1,0 +1,98 @@
+services:
+  # Web Service
+  - type: web
+    name: dailydrive
+    env: php
+    plan: starter
+    buildCommand: |
+      composer install --no-dev --optimize-autoloader
+      php artisan key:generate
+      php artisan storage:link
+      php artisan config:cache
+      php artisan route:cache
+      php artisan view:cache
+    startCommand: |
+      php artisan migrate --force
+      php artisan optimize
+      apache2-foreground
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_URL
+        value: https://dailydrive.onrender.com
+      - key: APP_KEY
+        generateValue: true
+      - key: DB_CONNECTION
+        value: mysql
+      - key: DB_HOST
+        fromDatabase: dailydrive-db
+        property: host
+      - key: DB_PORT
+        fromDatabase: dailydrive-db
+        property: port
+      - key: DB_DATABASE
+        fromDatabase: dailydrive-db
+        property: database
+      - key: DB_USERNAME
+        fromDatabase: dailydrive-db
+        property: user
+      - key: DB_PASSWORD
+        fromDatabase: dailydrive-db
+        property: password
+      - key: CACHE_DRIVER
+        value: redis
+      - key: SESSION_DRIVER
+        value: redis
+      - key: REDIS_HOST
+        fromService: dailydrive-redis
+        property: host
+      - key: REDIS_PORT
+        fromService: dailydrive-redis
+        property: port
+      - key: REDIS_PASSWORD
+        fromService: dailydrive-redis
+        property: password
+    disk:
+      name: dailydrive-storage
+      mountPath: /var/www/html/storage
+      sizeGB: 1
+
+  # Database Service
+  - type: pserv
+    name: dailydrive-db
+    env: mysql
+    plan: free
+    ipAllowList: []
+    healthCheck:
+      path: /
+      initialDelaySeconds: 30
+    envVars:
+      - key: MYSQL_DATABASE
+        value: dailydrive
+      - key: MYSQL_USER
+        value: dailydrive
+      - key: MYSQL_PASSWORD
+        generateValue: true
+
+  # Redis Service
+  - type: pserv
+    name: dailydrive-redis
+    env: redis
+    plan: free
+    healthCheck:
+      path: /
+      initialDelaySeconds: 30
+    envVars:
+      - key: REDIS_PASSWORD
+        generateValue: true
+
+# Cron Job for Scheduler
+cron:
+  - name: dailydrive-scheduler
+    schedule: "*/10 * * * *"
+    command: "php /var/www/html/artisan schedule:run"
+    service: dailydrive

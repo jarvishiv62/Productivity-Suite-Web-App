@@ -7,20 +7,20 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'DailyDrive - Your Goals & Tasks Dashboard')</title>
 
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <link rel="stylesheet" href="https://unpkg.com/lucide-static@0.321.0/font/lucide.css">
+    
+    <!-- Custom GenZ CSS -->
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
-    <!-- Custom CSS -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
 </head>
 
-<body class="bg-gray-50">
-    <!-- Main Content (Full Screen for Auth) -->
+<body style="margin: 0; padding: 0; overflow-x: hidden;">
     @yield('content')
-
-    <!-- Bootstrap 5 JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Custom Scripts -->
     @stack('scripts')

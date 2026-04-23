@@ -1,70 +1,63 @@
 <!-- Navigation -->
-<nav
-    style="background: var(--bg-secondary); border-bottom: 1px solid var(--border-color); padding: var(--space-md) 0; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(10px);">
-    <div class="container">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
+<nav class="fixed top-0 left-0 right-0 z-[1000] bg-bg-secondary border-b border-border-color py-4 backdrop-blur-lg">
+    <div class="max-w-7xl mx-auto px-4">
+        <div class="flex justify-between items-center">
             <!-- Logo -->
             <a href="{{ route('dashboard') }}"
-                style="display: flex; align-items: center; gap: var(--space-sm); text-decoration: none; font-weight: 700; font-size: 1.5rem; color: var(--text-primary);">
+                class="flex items-center gap-2 text-decoration-none font-bold text-xl text-text-primary hover:text-neon-cyan transition-colors duration-200">
                 🚀
                 <span
-                    style="background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">DailyDrive</span>
+                    class="bg-gradient-to-r from-neon-pink to-neon-purple bg-clip-text text-transparent">DailyDrive</span>
             </a>
 
             <!-- Mobile Menu Toggle -->
             <button id="mobileMenuToggle"
-                style="display: none; background: none; border: none; color: var(--text-primary); font-size: 1.5rem; cursor: pointer; padding: var(--space-sm);">
+                class="hidden bg-transparent border-none text-text-primary text-xl cursor-pointer p-2 md:hidden">
                 🍔
                 <i class="lucide-menu"></i>
             </button>
 
             <!-- Desktop Navigation -->
-            <div id="desktopNav" style="display: flex; align-items: center; gap: var(--space-lg);">
-                <div style="display: flex; align-items: center; gap: var(--space-md);">
+            <div id="desktopNav" class="hidden md:flex items-center gap-6">
+                <div class="flex items-center gap-4">
                     <a href="{{ route('dashboard') }}"
-                        class="nav-link {{ request()->routeIs('dashboard') || request()->routeIs('home') ? 'active' : '' }}"
-                        style="display: flex; align-items: center; gap: var(--space-xs); padding: var(--space-sm) var(--space-md); border-radius: var(--radius-md); text-decoration: none; color: var(--text-secondary); transition: var(--transition-normal); {{ request()->routeIs('dashboard') || request()->routeIs('home') ? 'background: var(--bg-hover); color: var(--neon-cyan);' : '' }}">
+                        class="nav-link flex items-center gap-2 px-3 py-2 rounded-lg text-text-secondary hover:bg-bg-hover hover:text-neon-cyan transition-all duration-300 {{ request()->routeIs('dashboard') || request()->routeIs('home') ? 'bg-bg-hover text-neon-cyan' : '' }}">
                         <i class="lucide-activity"></i>
                         <span>Dashboard</span>
                     </a>
 
                     <a href="{{ route('goals.index') }}"
-                        class="nav-link {{ request()->routeIs('goals.*') ? 'active' : '' }}"
-                        style="display: flex; align-items: center; gap: var(--space-xs); padding: var(--space-sm) var(--space-md); border-radius: var(--radius-md); text-decoration: none; color: var(--text-secondary); transition: var(--transition-normal); {{ request()->routeIs('goals.*') ? 'background: var(--bg-hover); color: var(--neon-cyan);' : '' }}">
+                        class="nav-link flex items-center gap-2 px-3 py-2 rounded-lg text-text-secondary hover:bg-bg-hover hover:text-neon-cyan transition-all duration-300 {{ request()->routeIs('goals.*') ? 'bg-bg-hover text-neon-cyan' : '' }}">
                         🎯
                         <span>Goals</span>
                     </a>
 
                     <a href="{{ route('tasks.index') }}"
-                        class="nav-link {{ request()->routeIs('tasks.index') ? 'active' : '' }}"
-                        style="display: flex; align-items: center; gap: var(--space-xs); padding: var(--space-sm) var(--space-md); border-radius: var(--radius-md); text-decoration: none; color: var(--text-secondary); transition: var(--transition-normal); {{ request()->routeIs('tasks.index') ? 'background: var(--bg-hover); color: var(--neon-cyan);' : '' }}">
+                        class="nav-link flex items-center gap-2 px-3 py-2 rounded-lg text-text-secondary hover:bg-bg-hover hover:text-neon-cyan transition-all duration-300 {{ request()->routeIs('tasks.index') ? 'bg-bg-hover text-neon-cyan' : '' }}">
                         📋
                         <span>All Tasks</span>
                     </a>
 
                     <a href="{{ route('diary.index') }}"
-                        class="nav-link {{ request()->routeIs('diary.*') ? 'active' : '' }}"
-                        style="display: flex; align-items: center; gap: var(--space-xs); padding: var(--space-sm) var(--space-md); border-radius: var(--radius-md); text-decoration: none; color: var(--text-secondary); transition: var(--transition-normal); {{ request()->routeIs('diary.*') ? 'background: var(--bg-hover); color: var(--neon-cyan);' : '' }}">
+                        class="nav-link flex items-center gap-2 px-3 py-2 rounded-lg text-text-secondary hover:bg-bg-hover hover:text-neon-cyan transition-all duration-300 {{ request()->routeIs('diary.*') ? 'bg-bg-hover text-neon-cyan' : '' }}">
                         📖
                         <span>Diary</span>
                     </a>
 
                     <a href="{{ route('calendar.index') }}"
-                        class="nav-link {{ request()->routeIs('calendar.*') ? 'active' : '' }}"
-                        style="display: flex; align-items: center; gap: var(--space-xs); padding: var(--space-sm) var(--space-md); border-radius: var(--radius-md); text-decoration: none; color: var(--text-secondary); transition: var(--transition-normal); {{ request()->routeIs('calendar.*') ? 'background: var(--bg-hover); color: var(--neon-cyan);' : '' }}">
+                        class="nav-link flex items-center gap-2 px-3 py-2 rounded-lg text-text-secondary hover:bg-bg-hover hover:text-neon-cyan transition-all duration-300 {{ request()->routeIs('calendar.*') ? 'bg-bg-hover text-neon-cyan' : '' }}">
                         📅
                         <span>Calendar</span>
                     </a>
 
-                    <a href="{{ route('pomodoro.index') }}" class="nav-link"
-                        style="display: flex; align-items: center; gap: var(--space-xs); padding: var(--space-sm) var(--space-md); border-radius: var(--radius-md); text-decoration: none; color: var(--text-secondary); transition: var(--transition-normal);">
+                    <a href="{{ route('pomodoro.index') }}"
+                        class="nav-link flex items-center gap-2 px-3 py-2 rounded-lg text-text-secondary hover:bg-bg-hover hover:text-neon-cyan transition-all duration-300">
                         ⏰
                         <span>Pomodoro</span>
                     </a>
 
                     <a href="{{ route('progress.index') }}"
-                        class="nav-link {{ request()->routeIs('progress.*') ? 'active' : '' }}"
-                        style="display: flex; align-items: center; gap: var(--space-xs); padding: var(--space-sm) var(--space-md); border-radius: var(--radius-md); text-decoration: none; color: var(--text-secondary); transition: var(--transition-normal); {{ request()->routeIs('progress.*') ? 'background: var(--bg-hover); color: var(--neon-cyan);' : '' }}">
+                        class="nav-link flex items-center gap-2 px-3 py-2 rounded-lg text-text-secondary hover:bg-bg-hover hover:text-neon-cyan transition-all duration-300 {{ request()->routeIs('progress.*') ? 'bg-bg-hover text-neon-cyan' : '' }}">
                         📈
                         <span>Progress</span>
                     </a>
@@ -72,28 +65,28 @@
 
                 @auth
                     <!-- User Dropdown -->
-                    <div style="position: relative;">
+                    <div class="relative">
                         <button id="userDropdownToggle"
-                            style="display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-sm) var(--space-md); border: 1px solid var(--neon-cyan); border-radius: var(--radius-md); background: transparent; color: var(--neon-cyan); cursor: pointer; transition: var(--transition-normal);">
+                            class="flex items-center gap-2 px-3 py-2 border border-neon-cyan rounded-lg bg-transparent text-neon-cyan cursor-pointer hover:bg-neon-cyan hover:text-bg-primary transition-all duration-300">
                             <i class="lucide-user"></i>
                             <span>{{ Auth::user()->name }}</span>
-                            <i class="lucide-chevron-down" style="font-size: 0.8rem;"></i>
+                            <i class="lucide-chevron-down text-sm"></i>
                         </button>
 
                         <div id="userDropdown"
-                            style="display: none; position: absolute; top: 100%; right: 0; margin-top: var(--space-xs); background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); box-shadow: var(--shadow-lg); min-width: 200px; z-index: 1000;">
+                            class="hidden absolute top-full right-0 mt-1 bg-bg-card border border-border-color rounded-lg shadow-lg min-w-[200px] z-[1000]">
                             <a href="#"
-                                style="display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-md); color: var(--text-primary); text-decoration: none; transition: var(--transition-fast);">
+                                class="flex items-center gap-2 p-4 text-text-primary hover:bg-bg-hover transition-colors duration-200">
                                 <i class="lucide-user"></i>
                                 <span>Profile</span>
                             </a>
 
-                            <div style="height: 1px; background: var(--border-color); margin: var(--space-xs) 0;"></div>
+                            <div class="h-px bg-border-color my-2"></div>
 
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit"
-                                    style="display: flex; align-items: center; gap: var(--space-sm); width: 100%; padding: var(--space-md); background: none; border: none; color: var(--text-primary); cursor: pointer; transition: var(--transition-fast);">
+                                    class="flex items-center gap-2 w-full p-4 bg-transparent border-none text-text-primary cursor-pointer hover:bg-bg-hover transition-colors duration-200 text-left">
                                     <i class="lucide-log-out"></i>
                                     <span>Logout</span>
                                 </button>
@@ -102,12 +95,14 @@
                     </div>
                 @else
                     <!-- Login/Register Buttons -->
-                    <div style="display: flex; align-items: center; gap: var(--space-sm);">
-                        <a href="{{ route('login') }}" class="btn btn-outline">
+                    <div class="flex items-center gap-2">
+                        <a href="{{ route('login') }}"
+                            class="btn btn-outline flex items-center gap-2 px-3 py-2 border-2 border-neon-cyan text-neon-cyan rounded-lg hover:bg-neon-cyan hover:text-bg-primary transition-all duration-300">
                             <i class="lucide-log-in"></i> Login
                         </a>
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="btn btn-secondary">
+                            <a href="{{ route('register') }}"
+                                class="btn btn-secondary flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-neon-green to-neon-blue text-bg-primary rounded-lg hover:transform hover:translate-y-[-2px] hover:shadow-lg transition-all duration-300">
                                 <i class="lucide-user-plus"></i> Register
                             </a>
                         @endif
@@ -117,55 +112,54 @@
         </div>
 
         <!-- Mobile Navigation -->
-        <div id="mobileNav"
-            style="display: none; margin-top: var(--space-md); padding-top: var(--space-md); border-top: 1px solid var(--border-color);">
-            <div style="display: flex; flex-direction: column; gap: var(--space-sm);">
+        <div id="mobileNav" class="hidden mt-4 pt-4 border-t border-border-color md:hidden">
+            <div class="flex flex-col gap-2">
                 <a href="{{ route('dashboard') }}"
-                    style="display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-md); color: var(--text-primary); text-decoration: none; border-radius: var(--radius-md); {{ request()->routeIs('dashboard') || request()->routeIs('home') ? 'background: var(--bg-hover);' : '' }}">
+                    class="flex items-center gap-2 p-4 text-text-primary hover:bg-bg-hover rounded-lg transition-colors duration-200 {{ request()->routeIs('dashboard') || request()->routeIs('home') ? 'bg-bg-hover' : '' }}">
                     <i class="lucide-activity"></i>
                     <span>Dashboard</span>
                 </a>
 
                 <a href="{{ route('goals.index') }}"
-                    style="display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-md); color: var(--text-primary); text-decoration: none; border-radius: var(--radius-md); {{ request()->routeIs('goals.*') ? 'background: var(--bg-hover);' : '' }}">
+                    class="flex items-center gap-2 p-4 text-text-primary hover:bg-bg-hover rounded-lg transition-colors duration-200 {{ request()->routeIs('goals.*') ? 'bg-bg-hover' : '' }}">
                     <i class="lucide-target"></i>
                     <span>Goals</span>
                 </a>
 
                 <a href="{{ route('tasks.index') }}"
-                    style="display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-md); color: var(--text-primary); text-decoration: none; border-radius: var(--radius-md); {{ request()->routeIs('tasks.index') ? 'background: var(--bg-hover);' : '' }}">
+                    class="flex items-center gap-2 p-4 text-text-primary hover:bg-bg-hover rounded-lg transition-colors duration-200 {{ request()->routeIs('tasks.index') ? 'bg-bg-hover' : '' }}">
                     <i class="lucide-list-checks"></i>
                     <span>All Tasks</span>
                 </a>
 
                 <a href="{{ route('diary.index') }}"
-                    style="display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-md); color: var(--text-primary); text-decoration: none; border-radius: var(--radius-md); {{ request()->routeIs('diary.*') ? 'background: var(--bg-hover);' : '' }}">
+                    class="flex items-center gap-2 p-4 text-text-primary hover:bg-bg-hover rounded-lg transition-colors duration-200 {{ request()->routeIs('diary.*') ? 'bg-bg-hover' : '' }}">
                     <i class="lucide-book-open"></i>
                     <span>Diary</span>
                 </a>
 
                 <a href="{{ route('calendar.index') }}"
-                    style="display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-md); color: var(--text-primary); text-decoration: none; border-radius: var(--radius-md); {{ request()->routeIs('calendar.*') ? 'background: var(--bg-hover);' : '' }}">
+                    class="flex items-center gap-2 p-4 text-text-primary hover:bg-bg-hover rounded-lg transition-colors duration-200 {{ request()->routeIs('calendar.*') ? 'bg-bg-hover' : '' }}">
                     <i class="lucide-calendar"></i>
                     <span>Calendar</span>
                 </a>
 
                 <a href="{{ route('pomodoro.index') }}"
-                    style="display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-md); color: var(--text-primary); text-decoration: none; border-radius: var(--radius-md);">
+                    class="flex items-center gap-2 p-4 text-text-primary hover:bg-bg-hover rounded-lg transition-colors duration-200">
                     <i class="lucide-timer"></i>
                     <span>Pomodoro</span>
                 </a>
 
                 <a href="{{ route('progress.index') }}"
-                    style="display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-md); color: var(--text-primary); text-decoration: none; border-radius: var(--radius-md); {{ request()->routeIs('progress.*') ? 'background: var(--bg-hover);' : '' }}">
+                    class="flex items-center gap-2 p-4 text-text-primary hover:bg-bg-hover rounded-lg transition-colors duration-200 {{ request()->routeIs('progress.*') ? 'bg-bg-hover' : '' }}">
                     <i class="lucide-trending-up"></i>
                     <span>Progress</span>
                 </a>
 
                 @auth
-                    <div style="height: 1px; background: var(--border-color); margin: var(--space-sm) 0;"></div>
+                    <div class="h-px bg-border-color my-2"></div>
                     <a href="#"
-                        style="display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-md); color: var(--text-primary); text-decoration: none; border-radius: var(--radius-md);">
+                        class="flex items-center gap-2 p-4 text-text-primary hover:bg-bg-hover rounded-lg transition-colors duration-200">
                         <i class="lucide-user"></i>
                         <span>Profile</span>
                     </a>
@@ -173,21 +167,21 @@
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit"
-                            style="display: flex; align-items: center; gap: var(--space-sm); width: 100%; padding: var(--space-md); background: none; border: none; color: var(--text-primary); cursor: pointer; text-align: left;">
+                            class="flex items-center gap-2 w-full p-4 bg-transparent border-none text-text-primary cursor-pointer hover:bg-bg-hover transition-colors duration-200 text-left">
                             <i class="lucide-log-out"></i>
                             <span>Logout</span>
                         </button>
                     </form>
                 @else
-                    <div style="height: 1px; background: var(--border-color); margin: var(--space-sm) 0;"></div>
+                    <div class="h-px bg-border-color my-2"></div>
                     <a href="{{ route('login') }}"
-                        style="display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-md); color: var(--neon-cyan); text-decoration: none; border-radius: var(--radius-md);">
+                        class="flex items-center gap-2 p-4 text-neon-cyan hover:bg-bg-hover rounded-lg transition-colors duration-200">
                         <i class="lucide-log-in"></i>
                         <span>Login</span>
                     </a>
                     @if (Route::has('register'))
                         <a href="{{ route('register') }}"
-                            style="display: flex; align-items: center; gap: var(--space-sm); padding: var(--space-md); color: var(--neon-cyan); text-decoration: none; border-radius: var(--radius-md);">
+                            class="flex items-center gap-2 p-4 text-neon-cyan hover:bg-bg-hover rounded-lg transition-colors duration-200">
                             <i class="lucide-user-plus"></i>
                             <span>Register</span>
                         </a>
@@ -200,10 +194,10 @@
 
 <!-- Flash Messages -->
 @if(session('success'))
-    <div style="padding: var(--space-md) 0;">
-        <div class="container">
+    <div class="py-4">
+        <div class="max-w-7xl mx-auto px-4">
             <div
-                style="background: var(--secondary-gradient); color: var(--bg-primary); padding: var(--space-md); border-radius: var(--radius-md); display: flex; align-items: center; gap: var(--space-sm); animation: slideInRight 0.3s ease;">
+                class="bg-gradient-to-r from-neon-green to-neon-blue text-bg-primary p-4 rounded-lg flex items-center gap-2 animate-fade-in">
                 <i class="lucide-check-circle"></i>
                 <span>{{ session('success') }}</span>
             </div>
@@ -212,10 +206,9 @@
 @endif
 
 @if(session('error'))
-    <div style="padding: var(--space-md) 0;">
-        <div class="container">
-            <div
-                style="background: var(--neon-orange); color: white; padding: var(--space-md); border-radius: var(--radius-md); display: flex; align-items: center; gap: var(--space-sm); animation: slideInRight 0.3s ease;">
+    <div class="py-4">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="bg-neon-orange text-white p-4 rounded-lg flex items-center gap-2 animate-fade-in">
                 <i class="lucide-alert-triangle"></i>
                 <span>{{ session('error') }}</span>
             </div>
@@ -224,7 +217,7 @@
 @endif
 
 <style>
-    /* Navigation hover effects */
+    /* Navigation hover effects - Tailwind handles most of these */
     .nav-link:hover {
         background: var(--bg-hover) !important;
         color: var(--neon-cyan) !important;
@@ -248,7 +241,7 @@
         background: var(--bg-hover) !important;
     }
 
-    /* Mobile responsiveness */
+    /* Mobile responsiveness - Tailwind handles most of these */
     @media (max-width: 768px) {
         #desktopNav {
             display: none !important;
@@ -266,6 +259,31 @@
     @media (min-width: 769px) {
         #mobileNav {
             display: none !important;
+        }
+    }
+
+    /* Custom animations for flash messages */
+    @keyframes slideInRight {
+        from {
+            opacity: 0;
+            transform: translateX(100%);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    @keyframes slideOutRight {
+        from {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        to {
+            opacity: 0;
+            transform: translateX(100%);
         }
     }
 </style>

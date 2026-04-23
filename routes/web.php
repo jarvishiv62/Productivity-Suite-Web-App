@@ -7,11 +7,15 @@ use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\DiaryController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ProgressController;
+use App\Http\Controllers\HealthController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 // Authentication Routes (handled by Laravel Breeze)
 require __DIR__ . '/auth.php';
+
+// Health Check Route (for Render)
+Route::get('/health', [HealthController::class, 'index'])->name('health');
 
 // Redirect root to dashboard (only for authenticated users)
 Route::get('/', function () {
@@ -26,7 +30,7 @@ Route::middleware(['auth'])->group(function () {
     // Task resource routes
     Route::resource('tasks', TaskController::class)->except(['index']);
     Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
-    
+
     // Custom route for toggling task completion
     Route::patch('tasks/{task}/toggle', [TaskController::class, 'toggle'])
         ->name('tasks.toggle')

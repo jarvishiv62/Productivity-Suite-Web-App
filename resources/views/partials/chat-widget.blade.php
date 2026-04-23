@@ -1,42 +1,40 @@
-<!-- GenZ Chat Widget -->
-<div id="chatWidget" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+<!-- Chat Widget -->
+<div id="chatWidget" class="fixed bottom-5 right-5 z-[1000]">
     <!-- Chat Toggle Button -->
     <button id="chatToggleBtn"
-        style="width: 60px; height: 60px; border-radius: 50%; background: var(--primary-gradient); border: none; color: white; font-size: 28px; cursor: pointer; box-shadow: 0 8px 24px rgba(255, 0, 110, 0.4); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); display: flex; align-items: center; justify-content: center; position: relative;"
+        class="w-14 h-14 rounded-full bg-gradient-to-r from-neon-pink to-neon-purple border-none text-white text-2xl cursor-pointer shadow-lg shadow-neon-pink/40 transition-all duration-300 flex items-center justify-center relative hover:scale-105 hover:rotate-6 hover:shadow-xl hover:shadow-neon-pink/50 active:scale-95"
         aria-label="Toggle chat">
-        🤖
+        <i class="lucide-bot"></i>
         @if(config('services.gemini.enabled'))
-            <span
-                style="position: absolute; top: -4px; right: -4px; background: var(--neon-yellow); color: var(--bg-primary); font-size: 10px; padding: 4px 6px; border-radius: 8px; font-weight: 700; text-transform: uppercase;">AI</span>
+            <span class="absolute -top-1 -right-1 bg-neon-yellow text-bg-primary text-xs px-1.5 py-0.5 rounded-lg font-bold text-uppercase">
+                AI
+            </span>
         @endif
     </button>
 
     <!-- Chat Window -->
     <div id="chatWindow"
-        style="position: absolute; bottom: 80px; right: 0; width: 400px; height: 520px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-xl); box-shadow: 0 24px 48px rgba(0, 0, 0, 0.6); display: none; flex-direction: column; overflow: hidden; backdrop-filter: blur(20px);">
+        class="absolute bottom-20 right-0 w-96 h-[520px] bg-bg-card/80 backdrop-blur-xl border border-border-color rounded-2xl shadow-2xl hidden flex-col overflow-hidden">
         <!-- Header -->
-        <div
-            style="background: var(--primary-gradient); color: white; padding: var(--space-lg); display: flex; align-items: center; justify-content: space-between; border-radius: var(--radius-xl) var(--radius-xl) 0 0;">
-            <div style="display: flex; align-items: center;">
-                <div
-                    style="width: 40px; height: 40px; background: rgba(255, 255, 255, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: var(--space-md); backdrop-filter: blur(10px);">
-                    🤖
+        <div class="bg-gradient-to-r from-neon-pink to-neon-purple text-white p-4 flex items-center justify-between rounded-t-2xl">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                    <i class="lucide-bot text-lg"></i>
                 </div>
                 <div>
-                    <h6 style="margin: 0; font-size: 16px; font-weight: 700;">
+                    <h6 class="text-base font-bold mb-0">
                         DailyDrive Assistant
                         @if(config('services.gemini.enabled'))
-                            <span
-                                style="background: var(--neon-yellow); color: var(--bg-primary); padding: 2px 8px; border-radius: 8px; font-size: 10px; margin-left: var(--space-sm); font-weight: 700; text-transform: uppercase;">✨
-                                AI</span>
+                            <span class="bg-neon-yellow text-bg-primary px-2 py-0.5 rounded-lg text-xs font-bold text-uppercase ml-2">
+                                AI
+                            </span>
                         @endif
                     </h6>
-                    <small style="color: rgba(255,255,255,0.9); font-size: 12px; font-weight: 500;">Always here to
-                        help</small>
+                    <small class="text-white/90 text-xs font-medium">Always here to help</small>
                 </div>
             </div>
             <button id="chatCloseBtn"
-                style="background: rgba(255, 255, 255, 0.2); border: none; color: white; font-size: 20px; cursor: pointer; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: var(--transition-normal);"
+                class="bg-white/20 border-none text-white text-lg cursor-pointer w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 hover:bg-white/30 hover:rotate-90"
                 aria-label="Close">
                 <i class="lucide-x"></i>
             </button>
@@ -44,35 +42,29 @@
 
         <!-- Messages -->
         <div id="widgetChatMessages"
-            style="flex: 1; padding: var(--space-lg); overflow-y: auto; background: var(--bg-secondary); scroll-behavior: smooth;">
-            <div style="text-align: center; padding: var(--space-xl) var(--space-md);">
-                <div
-                    style="width: 64px; height: 64px; background: var(--secondary-gradient); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-md); box-shadow: var(--shadow-neon);">
-                    🤖
+            class="flex-1 p-4 overflow-y-auto bg-bg-secondary/50 scroll-smooth">
+            <div class="text-center p-6">
+                <div class="w-16 h-16 bg-gradient-to-br from-neon-green to-neon-blue rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg shadow-neon-green/30">
+                    <i class="lucide-bot text-2xl text-white"></i>
                 </div>
-                <p style="margin: var(--space-md) 0; line-height: 1.6; color: var(--text-primary); font-weight: 500;">
+                <p class="text-text-primary font-medium mb-0 leading-relaxed">
                     🤖 Hi! I'm your DailyDrive assistant
                     @if(config('services.gemini.enabled'))
                         powered by Google Gemini AI ✨
                     @endif
                     <br>How can I help you today?
                 </p>
-                <div
-                    style="display: flex; flex-wrap: wrap; gap: var(--space-sm); justify-content: center; margin-top: var(--space-lg);">
-                    <button class="widget-quick-cmd" data-command="tasks today"
-                        style="background: var(--bg-tertiary); border: 1px solid var(--border-color); color: var(--text-primary); padding: var(--space-sm) var(--space-md); border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-normal); font-size: 12px; font-weight: 600;">
+                <div class="flex flex-wrap gap-2 justify-center mt-4">
+                    <button class="widget-quick-cmd px-3 py-2 bg-bg-tertiary border border-border-color text-text-primary rounded-lg cursor-pointer transition-all duration-200 text-xs font-semibold hover:bg-gradient-to-r hover:from-neon-pink hover:to-neon-purple hover:text-white hover:scale-105 hover:shadow-lg" data-command="tasks today">
                         📝 Today's Tasks
                     </button>
-                    <button class="widget-quick-cmd" data-command="quote"
-                        style="background: var(--bg-tertiary); border: 1px solid var(--border-color); color: var(--text-primary); padding: var(--space-sm) var(--space-md); border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-normal); font-size: 12px; font-weight: 600;">
+                    <button class="widget-quick-cmd px-3 py-2 bg-bg-tertiary border border-border-color text-text-primary rounded-lg cursor-pointer transition-all duration-200 text-xs font-semibold hover:bg-gradient-to-r hover:from-neon-pink hover:to-neon-purple hover:text-white hover:scale-105 hover:shadow-lg" data-command="quote">
                         💭 Get Motivated
                     </button>
-                    <button class="widget-quick-cmd" data-command="goals"
-                        style="background: var(--bg-tertiary); border: 1px solid var(--border-color); color: var(--text-primary); padding: var(--space-sm) var(--space-md); border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-normal); font-size: 12px; font-weight: 600;">
+                    <button class="widget-quick-cmd px-3 py-2 bg-bg-tertiary border border-border-color text-text-primary rounded-lg cursor-pointer transition-all duration-200 text-xs font-semibold hover:bg-gradient-to-r hover:from-neon-pink hover:to-neon-purple hover:text-white hover:scale-105 hover:shadow-lg" data-command="goals">
                         🎯 My Goals
                     </button>
-                    <button class="widget-quick-cmd" data-command="progress"
-                        style="background: var(--bg-tertiary); border: 1px solid var(--border-color); color: var(--text-primary); padding: var(--space-sm) var(--space-md); border-radius: var(--radius-md); cursor: pointer; transition: var(--transition-normal); font-size: 12px; font-weight: 600;">
+                    <button class="widget-quick-cmd px-3 py-2 bg-bg-tertiary border border-border-color text-text-primary rounded-lg cursor-pointer transition-all duration-200 text-xs font-semibold hover:bg-gradient-to-r hover:from-neon-pink hover:to-neon-purple hover:text-white hover:scale-105 hover:shadow-lg" data-command="progress">
                         📊 Progress Report
                     </button>
                 </div>
@@ -80,12 +72,12 @@
         </div>
 
         <!-- Input Area -->
-        <div style="padding: var(--space-lg); border-top: 1px solid var(--border-color); background: var(--bg-card);">
-            <form id="widgetChatForm" style="display: flex; gap: var(--space-sm);">
+        <div class="p-4 border-t border-border-color bg-bg-card/80">
+            <form id="widgetChatForm" class="flex gap-2">
                 <input type="text" id="widgetChatInput" placeholder="Type your message..."
-                    style="flex: 1; padding: var(--space-md); border: 1px solid var(--border-color); border-radius: var(--radius-lg); background: var(--bg-secondary); color: var(--text-primary); outline: none; font-size: 14px; transition: var(--transition-normal);" />
+                    class="flex-1 px-3 py-2 border border-border-color rounded-lg bg-bg-secondary/80 text-text-primary placeholder-text-muted outline-none text-sm transition-all duration-200 focus:border-neon-cyan focus:ring-2 focus:ring-neon-cyan/50" />
                 <button type="submit"
-                    style="padding: var(--space-md); background: var(--secondary-gradient); color: var(--bg-primary); border: none; border-radius: var(--radius-lg); cursor: pointer; font-size: 16px; transition: var(--transition-normal); display: flex; align-items: center; justify-content: center;">
+                    class="px-3 py-2 bg-gradient-to-r from-neon-green to-neon-blue text-bg-primary border-none rounded-lg cursor-pointer text-base transition-all duration-200 flex items-center justify-center hover:scale-105 hover:shadow-lg hover:shadow-neon-green/40 active:scale-95">
                     <i class="lucide-send"></i>
                 </button>
             </form>
@@ -94,32 +86,6 @@
 </div>
 
 <style>
-    /* Chat Button Animations */
-    #chatToggleBtn:hover {
-        transform: scale(1.05) rotate(5deg);
-        box-shadow: 0 12px 32px rgba(233, 30, 99, 0.4);
-    }
-
-    #chatToggleBtn:active {
-        transform: scale(0.95);
-    }
-
-    #chatToggleBtn.glow {
-        animation: chatGlow 2s ease-in-out infinite;
-    }
-
-    @keyframes chatGlow {
-
-        0%,
-        100% {
-            box-shadow: 0 8px 24px rgba(255, 0, 110, 0.4);
-        }
-
-        50% {
-            box-shadow: 0 8px 32px rgba(255, 0, 110, 0.8), 0 0 20px rgba(6, 255, 180, 0.4);
-        }
-    }
-
     /* Chat Window Animations */
     #chatWindow {
         opacity: 0;
@@ -139,46 +105,15 @@
             opacity: 0;
             transform: translateY(30px) scale(0.95);
         }
-
         to {
             opacity: 1;
             transform: translateY(0) scale(1);
         }
     }
 
-    /* Close Button Hover */
-    #chatCloseBtn:hover {
-        background: rgba(255, 255, 255, 0.3) !important;
-        transform: rotate(90deg);
-    }
-
-    /* Quick Command Buttons */
-    .widget-quick-cmd:hover {
-        background: var(--primary-gradient) !important;
-        color: white !important;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(255, 0, 110, 0.3);
-    }
-
-    /* Input Focus Effects */
-    #widgetChatInput:focus {
-        border-color: var(--neon-cyan) !important;
-        box-shadow: 0 0 0 3px rgba(6, 255, 180, 0.1);
-    }
-
-    /* Send Button Hover */
-    #widgetChatForm button:hover {
-        transform: scale(1.05);
-        box-shadow: 0 4px 16px rgba(6, 255, 180, 0.4);
-    }
-
-    #widgetChatForm button:active {
-        transform: scale(0.95);
-    }
-
     /* Message Styles */
     .widget-message {
-        margin-bottom: var(--space-md);
+        margin-bottom: 1rem;
         animation: messageSlideIn 0.3s ease;
     }
 
@@ -187,7 +122,6 @@
             opacity: 0;
             transform: translateX(-20px);
         }
-
         to {
             opacity: 1;
             transform: translateX(0);
@@ -204,8 +138,8 @@
 
     .widget-message-content {
         display: inline-block;
-        padding: var(--space-sm) var(--space-md);
-        border-radius: var(--radius-lg);
+        padding: 0.5rem 1rem;
+        border-radius: 0.75rem;
         max-width: 85%;
         word-wrap: break-word;
         white-space: pre-wrap;
@@ -214,22 +148,22 @@
     }
 
     .widget-message.user .widget-message-content {
-        background: var(--primary-gradient);
+        background: linear-gradient(135deg, #e91e63 0%, #9c27b0 100%);
         color: white;
-        border-bottom-right-radius: var(--radius-sm);
+        border-bottom-right-radius: 0.25rem;
     }
 
     .widget-message.bot .widget-message-content {
-        background: var(--bg-tertiary);
-        color: var(--text-primary);
-        border: 1px solid var(--border-color);
-        border-bottom-left-radius: var(--radius-sm);
+        background: #2f2f4e;
+        color: #f5f5f5;
+        border: 1px solid #2f2f4e;
+        border-bottom-left-radius: 0.25rem;
     }
 
     .widget-message-time {
         font-size: 11px;
-        color: var(--text-muted);
-        margin-top: var(--space-xs);
+        color: #64748b;
+        margin-top: 0.25rem;
         opacity: 0.7;
     }
 
@@ -238,13 +172,13 @@
         display: flex;
         align-items: center;
         gap: 4px;
-        padding: var(--space-sm) 0;
+        padding: 0.5rem 0;
     }
 
     .typing-indicator span {
         width: 8px;
         height: 8px;
-        background: var(--neon-cyan);
+        background: #00bcd4;
         border-radius: 50%;
         animation: typing 1.4s infinite ease-in-out;
     }
@@ -258,14 +192,10 @@
     }
 
     @keyframes typing {
-
-        0%,
-        80%,
-        100% {
+        0%, 80%, 100% {
             transform: scale(0.8);
             opacity: 0.5;
         }
-
         40% {
             transform: scale(1);
             opacity: 1;
@@ -282,31 +212,45 @@
     }
 
     #widgetChatMessages::-webkit-scrollbar-thumb {
-        background: var(--neon-purple);
-        border-radius: var(--radius-full);
+        background: #9c27b0;
+        border-radius: 9999px;
     }
 
     #widgetChatMessages::-webkit-scrollbar-thumb:hover {
-        background: var(--neon-pink);
+        background: #e91e63;
+    }
+
+    /* Chat Button Glow Animation */
+    #chatToggleBtn.glow {
+        animation: chatGlow 2s ease-in-out infinite;
+    }
+
+    @keyframes chatGlow {
+        0%, 100% {
+            box-shadow: 0 8px 24px rgba(233, 30, 99, 0.4);
+        }
+        50% {
+            box-shadow: 0 8px 32px rgba(233, 30, 99, 0.8), 0 0 20px rgba(6, 255, 180, 0.4);
+        }
     }
 
     /* Mobile Responsiveness */
     @media (max-width: 480px) {
         #chatWidget {
-            bottom: 15px !important;
-            right: 15px !important;
+            bottom: 4rem !important;
+            right: 1rem !important;
         }
 
         #chatToggleBtn {
-            width: 50px !important;
-            height: 50px !important;
-            font-size: 20px !important;
+            width: 3rem !important;
+            height: 3rem !important;
+            font-size: 1.25rem !important;
         }
 
         #chatWindow {
-            width: calc(100vw - 30px) !important;
+            width: calc(100vw - 2rem) !important;
             height: 70vh !important;
-            right: -15px !important;
+            right: -1rem !important;
         }
     }
 </style>
@@ -314,8 +258,6 @@
 <script>
     // Chat Widget Functionality
     document.addEventListener('DOMContentLoaded', function () {
-        console.log('Chat widget initializing...');
-
         const chatToggleBtn = document.getElementById('chatToggleBtn');
         const chatWindow = document.getElementById('chatWindow');
         const chatCloseBtn = document.getElementById('chatCloseBtn');
@@ -323,25 +265,12 @@
         const chatInput = document.getElementById('widgetChatInput');
         const chatMessages = document.getElementById('widgetChatMessages');
 
-        console.log('Chat elements found:', {
-            chatToggleBtn: !!chatToggleBtn,
-            chatWindow: !!chatWindow,
-            chatCloseBtn: !!chatCloseBtn,
-            chatForm: !!chatForm,
-            chatInput: !!chatInput,
-            chatMessages: !!chatMessages
-        });
-
         // Toggle chat window
         chatToggleBtn?.addEventListener('click', function (e) {
             e.preventDefault();
-            console.log('Chat toggle button clicked');
             chatWindow.classList.toggle('show');
             if (chatWindow.classList.contains('show')) {
                 chatInput.focus();
-                console.log('Chat window opened');
-            } else {
-                console.log('Chat window closed');
             }
         });
 
@@ -354,7 +283,6 @@
         document.addEventListener('click', function (e) {
             if (!chatWindow.contains(e.target) && !chatToggleBtn.contains(e.target)) {
                 chatWindow.classList.remove('show');
-                console.log('Chat window closed by clicking outside');
             }
         });
 
@@ -405,13 +333,13 @@
         });
 
         messageDiv.innerHTML = `
-        <div class="widget-message-content">${content}</div>
-        <div class="widget-message-time">${time}</div>
-    `;
+            <div class="widget-message-content">${content}</div>
+            <div class="widget-message-time">${time}</div>
+        `;
 
         // Remove welcome message if it exists
-        const welcomeMessage = chatMessages.querySelector('.welcome-message');
-        if (welcomeMessage) {
+        const welcomeMessage = chatMessages.querySelector('.text-center');
+        if (welcomeMessage && chatMessages.children.length > 1) {
             welcomeMessage.remove();
         }
 
@@ -425,12 +353,12 @@
         typingDiv.className = 'widget-message bot';
         typingDiv.id = 'typingIndicator';
         typingDiv.innerHTML = `
-        <div class="typing-indicator">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    `;
+            <div class="typing-indicator">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        `;
 
         chatMessages.appendChild(typingDiv);
         chatMessages.scrollTop = chatMessages.scrollHeight;

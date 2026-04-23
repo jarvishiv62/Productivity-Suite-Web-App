@@ -3,145 +3,135 @@
 @section('title', 'Login - DailyDrive')
 
 @section('content')
-    <div
-        class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex items-center justify-center px-4 sm:px-6 lg:px-8">
-        <div class="max-w-md w-full space-y-8">
-            <!-- Header -->
-            <div class="text-center">
-                <div
-                    class="mx-auto h-16 w-16 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full flex items-center justify-center shadow-lg">
-                    <svg class="h-8 w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1">
-                        </path>
-                    </svg>
+<div class="min-h-screen bg-gray-950 flex items-center justify-center p-4 relative overflow-hidden">
+    <!-- Animated Background -->
+    <div class="absolute inset-0 pointer-events-none">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-pink-500 to-purple-600 rounded-full opacity-20 blur-3xl animate-pulse"></div>
+        <div class="absolute bottom-0 left-0 w-80 h-80 bg-gradient-to-tr from-blue-500 to-cyan-400 rounded-full opacity-20 blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-gradient-to-r from-orange-400 to-red-500 rounded-full opacity-10 blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="relative z-10 w-full max-w-md">
+        <!-- Logo Section -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-pink-500 to-purple-600 rounded-2xl shadow-2xl mb-4 relative">
+                <div class="absolute inset-0 bg-gradient-to-br from-pink-500 to-purple-600 rounded-2xl blur-lg opacity-50 animate-pulse"></div>
+                <i class="lucide-zap text-white text-3xl relative z-10"></i>
+            </div>
+            <h1 class="text-4xl font-black text-white mb-2 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
+                DailyDrive
+            </h1>
+            <p class="text-gray-400 text-lg">Level up your productivity</p>
+        </div>
+
+        <!-- Login Form -->
+        <div class="bg-gray-900/80 backdrop-blur-xl border border-gray-800 rounded-3xl p-8 shadow-2xl relative overflow-hidden">
+            <!-- Animated Border -->
+            <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-pink-500 to-purple-600 animate-pulse"></div>
+            
+            <div class="text-center mb-6">
+                <h2 class="text-2xl font-bold text-white mb-2">Welcome Back</h2>
+                <p class="text-gray-400">Ready to crush your goals today?</p>
+            </div>
+
+            @if (session('status'))
+                <div class="mb-6 p-4 bg-green-500/10 border border-green-500/30 rounded-xl flex items-center gap-3 text-green-400">
+                    <i class="lucide-check-circle"></i>
+                    <span>{{ session('status') }}</span>
                 </div>
-                <h2 class="mt-6 text-3xl font-bold text-gray-900">Welcome back</h2>
-                <p class="mt-2 text-sm text-gray-600">Sign in to your DailyDrive account</p>
-            </div>
+            @endif
 
-            <!-- Login Form Card -->
-            <div class="bg-white shadow-xl rounded-2xl p-8 border border-gray-100">
-                <!-- Session Status -->
-                @if (session('status'))
-                    <div class="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
-                        <div class="flex items-center">
-                            <svg class="h-5 w-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                            <span class="text-green-700 font-medium">{{ session('status') }}</span>
+            <form method="POST" action="{{ route('login') }}" class="space-y-6">
+                @csrf
+
+                <!-- Email Field -->
+                <div>
+                    <label for="email" class="flex items-center gap-2 text-gray-300 text-sm font-medium mb-2">
+                        <i class="lucide-mail text-pink-400"></i>
+                        Email Address
+                    </label>
+                    <div class="relative">
+                        <input 
+                            id="email" 
+                            type="email" 
+                            name="email" 
+                            value="{{ old('email') }}" 
+                            required 
+                            autofocus
+                            class="w-full pl-12 pr-4 py-4 bg-gray-800/80 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-500/50 focus:border-pink-500 transition-all duration-300"
+                            placeholder="you@example.com"
+                        >
+                        <div class="absolute inset-0 bg-gradient-to-r from-pink-500 to-purple-600 rounded-xl opacity-0 blur-sm transition-opacity duration-300 -z-10"></div>
+                    </div>
+                    @error('email')
+                        <div class="mt-2 flex items-center gap-2 text-red-400 text-sm">
+                            <i class="lucide-alert-circle"></i>
+                            {{ $message }}
                         </div>
+                    @enderror
+                </div>
+
+                <!-- Password Field -->
+                <div>
+                    <label for="password" class="flex items-center gap-2 text-gray-300 text-sm font-medium mb-2">
+                        <i class="lucide-lock text-pink-400"></i>
+                        Password
+                    </label>
+                    <div class="relative">
+                        <input 
+                            id="password" 
+                            type="password" 
+                            name="password" 
+                            required
+                            class="w-full pl-12 pr-4 py-4 bg-gray-800/80 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-500/50 focus:border-pink-500 transition-all duration-300"
+                            placeholder="Enter your password"
+                        >
+                        <div class="absolute inset-0 bg-gradient-to-r from-pink-500 to-purple-600 rounded-xl opacity-0 blur-sm transition-opacity duration-300 -z-10"></div>
                     </div>
-                @endif
-
-                <form method="POST" action="{{ route('login') }}" class="space-y-6">
-                    @csrf
-
-                    <!-- Email Address -->
-                    <div>
-                        <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">Email Address</label>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207">
-                                    </path>
-                                </svg>
-                            </div>
-                            <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus
-                                class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                placeholder="you@example.com">
+                    @error('password')
+                        <div class="mt-2 flex items-center gap-2 text-red-400 text-sm">
+                            <i class="lucide-alert-circle"></i>
+                            {{ $message }}
                         </div>
-                        @error('email')
-                            <p class="mt-2 flex items-center text-sm text-red-600">
-                                <svg class="h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd"
-                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                        clip-rule="evenodd"></path>
-                                </svg>
-                                {{ $message }}
-                            </p>
-                        @enderror
-                    </div>
+                    @enderror
+                </div>
 
-                    <!-- Password -->
-                    <div>
-                        <label for="password" class="block text-sm font-semibold text-gray-700 mb-2">Password</label>
-                        <div class="relative">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
-                                    </path>
-                                </svg>
-                            </div>
-                            <input id="password" type="password" name="password" required
-                                class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg placeholder-gray-400 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                placeholder="Enter your password">
-                        </div>
-                        @error('password')
-                            <p class="mt-2 flex items-center text-sm text-red-600">
-                                <svg class="h-4 w-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd"
-                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                        clip-rule="evenodd"></path>
-                                </svg>
-                                {{ $message }}
-                            </p>
-                        @enderror
-                    </div>
+                <!-- Remember & Forgot -->
+                <div class="flex items-center justify-between">
+                    <label class="flex items-center gap-3 text-gray-400 text-sm cursor-pointer">
+                        <input type="checkbox" name="remember" class="w-4 h-4 text-pink-500 bg-gray-800 border-gray-600 rounded focus:ring-pink-500 focus:ring-2">
+                        <span>Remember me</span>
+                    </label>
+                    @if (Route::has('password.request'))
+                        <a href="{{ route('password.request') }}" class="text-pink-400 hover:text-pink-300 text-sm transition-colors">
+                            Forgot password?
+                        </a>
+                    @endif
+                </div>
 
-                    <!-- Remember Me & Forgot Password -->
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center">
-                            <input id="remember_me" type="checkbox" name="remember"
-                                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
-                            <label for="remember_me" class="ml-2 block text-sm text-gray-700">
-                                Remember me
-                            </label>
-                        </div>
+                <!-- Submit Button -->
+                <button type="submit" class="w-full py-4 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold rounded-xl hover:transform hover:scale-105 hover:shadow-2xl hover:shadow-pink-500/25 transition-all duration-300 flex items-center justify-center gap-3 group relative overflow-hidden">
+                    <span class="relative z-10">Sign In</span>
+                    <i class="lucide-arrow-right relative z-10 group-hover:translate-x-1 transition-transform duration-300"></i>
+                    <div class="absolute inset-0 bg-gradient-to-r from-pink-500 to-purple-600 opacity-0 group-hover:opacity-100 blur-lg transition-opacity duration-300"></div>
+                </button>
+            </form>
 
-                        @if (Route::has('password.request'))
-                            <div class="text-sm">
-                                <a href="{{ route('password.request') }}"
-                                    class="font-medium text-blue-600 hover:text-blue-500 transition-colors">
-                                    Forgot your password?
-                                </a>
-                            </div>
-                        @endif
-                    </div>
-
-                    <!-- Submit Button -->
-                    <div>
-                        <button type="submit"
-                            class="w-full flex justify-center py-3 px-4 border border-transparent text-sm font-semibold rounded-lg text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
-                            Sign in
-                        </button>
-                    </div>
-                </form>
-
-                <!-- Register Link -->
-                @if (Route::has('register'))
-                    <div class="mt-6 text-center border-t border-gray-200 pt-6">
-                        <p class="text-sm text-gray-600">
-                            New to DailyDrive?
-                            <a href="{{ route('register') }}"
-                                class="font-medium text-blue-600 hover:text-blue-500 transition-colors">
-                                Create an account
-                            </a>
-                        </p>
-                    </div>
-                @endif
-            </div>
-
-            <!-- Footer -->
-            <div class="text-center">
-                <p class="text-xs text-gray-500">
-                    © {{ date('Y') }} DailyDrive. Stay productive, stay driven.
+            <!-- Register Link -->
+            <div class="text-center mt-6 pt-6 border-t border-gray-800">
+                <p class="text-gray-400 text-sm">
+                    New to the game?
+                    <a href="{{ route('register') }}" class="text-pink-400 hover:text-pink-300 font-semibold ml-1 transition-colors">
+                        Create Account
+                    </a>
                 </p>
             </div>
         </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-8">
+            <p class="text-gray-600 text-xs">© {{ date('Y') }} DailyDrive — Built for go-getters</p>
+        </div>
     </div>
-@endsection
+</div>
